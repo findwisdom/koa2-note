@@ -47,5 +47,5 @@ node index.js
 
 访问[http:localhost:3000](http:localhost:3000)，效果如下
 
-![](/assets/startquick-demo.png)
+![](/assets/gitbook/startquick-demo.png)
 

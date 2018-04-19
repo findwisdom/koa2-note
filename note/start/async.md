@@ -36,7 +36,7 @@ getData()
 
 ### 在chrome的console中执行结果如下
 
-![async](./../images/async.png)
+![async](/assets/gitbook/async-await.png)
 
 ### 从上述例子可以看出 async/await 的特点：
 

@@ -8,8 +8,6 @@
 
 ## generator中间件开发
 
-### generator中间件开发
-
 > generator中间件返回的应该是function * () 函数
 
 ```js
@@ -71,9 +69,6 @@ console.log('the server is starting at port 3000')
 
 
 ## async中间件开发
-
-### async 中间件开发
-
 
 ```js
 /* ./middleware/logger-async.js */

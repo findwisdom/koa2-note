@@ -8,17 +8,16 @@ const app = new Koa()
  * @return {promise}
  */
 function render(page) {
-    return new Promise((resolve, reject) = > {
+    return new Promise((resolve, reject) => {
         let viewUrl = `./view/${page}`
-        fs.readFile(viewUrl, "binary", (err, data) = > {
-        if(err) {
-            reject(err)
-        } else {
-            resolve(data)
-        }
-    }
-)
-})
+        fs.readFile(viewUrl, "binary", (err, data) => {
+            if(err) {
+                reject(err)
+            } else {
+                resolve(data)
+            }
+        })
+    })
 }
 
 /**
@@ -48,13 +47,13 @@ async function route (url) {
     return html
 }
 
-app.use(async(ctx) = > {
+app.use(async(ctx) => {
     let url = ctx.request.url
     let html = await route(url)
     ctx.body = html
 })
 
-app.listen(3000, () = > {
+app.listen(3000, () => {
     console.log('[demo] route-simple is starting at port 3000')
 })
 

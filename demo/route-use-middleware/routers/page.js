@@ -6,4 +6,4 @@ module.exports = router
     })
     .get('/helloworld', async ( ctx ) => {
         ctx.body = 'helloworld page!'
-})
+    })

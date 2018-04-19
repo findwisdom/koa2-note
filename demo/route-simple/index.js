@@ -57,3 +57,12 @@ app.use(async(ctx) = > {
 app.listen(3000, () = > {
     console.log('[demo] route-simple is starting at port 3000')
 })
+
+const Koa = require('koa')
+const app = new Koa()
+
+app.use( async ( ctx ) => {
+    let url = ctx.request.url
+    ctx.body = url
+})
+app.listen(3000)

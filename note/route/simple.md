@@ -15,6 +15,8 @@ app.listen(3000)
 
 访问 [http://localhost:3000/hello/world](http://localhost:3000/hello/world) 页面会输出 /hello/world，也就是说上下文的请求request对象中url之就是当前访问的路径名称，可以根据ctx.request.url 通过一定的判断或者正则匹配就可以定制出所需要的路由。
 
+---
+
 ## 定制化的路由
 
 demo源码

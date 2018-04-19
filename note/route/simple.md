@@ -19,7 +19,7 @@ app.listen(3000)
 
 demo源码
 
-[https://github.com/ChenShenhai/koa2-note/tree/master/demo/route-simple](https://github.com/ChenShenhai/koa2-note/tree/master/demo/route-simple)
+[https://github.com/findwisdom/koa2-note/master/demo/route-simple](https://github.com/findwisdom/koa2-note/master/demo/route-simple)
 
 ### 源码文件目录
 
@@ -107,6 +107,6 @@ node -harmony index.js
 
 #### 运行效果如下
 
-访问[http://localhost:3000/index](http://localhost:3000/index)  
+访问[http://localhost:3000/index](http://localhost:3000/index)
 ![route-result-01](./../images/route-result-01.png)
 

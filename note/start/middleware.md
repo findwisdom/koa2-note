@@ -2,13 +2,13 @@
 
 > 注：原文地址在我的博客issue里[https://github.com/ChenShenhai/blog/issues/15](https://github.com/ChenShenhai/blog/issues/15)
 
-- koa v1和v2中使用到的中间件的开发和使用
-- generator 中间件开发在koa v1和v2中使用
-- async await 中间件开发和只能在koa v2中使用
+* koa v1和v2中使用到的中间件的开发和使用
+* generator 中间件开发在koa v1和v2中使用
+* async await 中间件开发和只能在koa v2中使用
 
 ## generator中间件开发
 
-> generator中间件返回的应该是function * () 函数
+> generator中间件返回的应该是function \* \(\) 函数
 
 ```js
 /* ./middleware/logger-generator.js */
@@ -49,6 +49,7 @@ console.log('the server is starting at port 3000')
 ```
 
 ### generator中间件在koa@2中的使用
+
 > generator 中间件在koa v2中需要用koa-convert封装一下才能使用
 
 ```js
@@ -67,6 +68,7 @@ app.listen(3000)
 console.log('the server is starting at port 3000')
 ```
 
+---
 
 ## async中间件开发
 
@@ -83,7 +85,6 @@ module.exports = function () {
     await next()
   }
 }
-
 ```
 
 ### async 中间件在koa@2中使用
@@ -104,4 +105,6 @@ app.use(( ctx ) => {
 app.listen(3000)
 console.log('the server is starting at port 3000')
 ```
+
+
 

@@ -6,6 +6,8 @@
 * generator 中间件开发在koa v1和v2中使用
 * async await 中间件开发和只能在koa v2中使用
 
+---
+
 ## generator中间件开发
 
 > generator中间件返回的应该是function \* \(\) 函数

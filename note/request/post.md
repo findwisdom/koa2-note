@@ -121,8 +121,8 @@ node post.js
 ```
 
 ### 访问页面
-![request-post-form](./../images/request-post-form.png)
+![request-get](/assets/gitbook/request-post-1.png)
 
 ### 提交表单发起POST请求结果显示
-![request-post-result](./../images/request-post-result.png)
+![request-get](/assets/gitbook/request-post-2.png)
 

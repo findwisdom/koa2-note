@@ -1,0 +1,16 @@
+{
+  "author": "XuTingLuo",
+  "description": "This is a sample book created by gitbook",
+  "language" : "zh-hans",
+  "extension": null,
+  "generator": "site",
+  "plugins": [
+    "-search",
+    "-sharing",
+    "-lunr",
+    "-fontsettings",
+    "toggle-chapters"
+  ],
+  "title": "Sample GitBook",
+  "variables": {}
+}

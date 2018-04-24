@@ -10,7 +10,7 @@
 
 demo源码
 
-[https://github.com/findwisdom/koa2-note/master/demo/static-server/](https://github.com/findwisdom/koa2-note/master/demo/static-server/)
+[https://github.com/findwisdom/koa2-note/tree/master/demo/static-server](https://github.com/findwisdom/koa2-note/tree/master/demo/static-server)
 
 ### 代码目录
 ```sh

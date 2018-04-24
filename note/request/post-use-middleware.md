@@ -16,7 +16,7 @@ npm install --save koa-bodyparser@3
 
 demo源码
 
-[https://github.com/findwisdom/koa2-note/master/demo/request/post-middleware.js](https://github.com/findwisdom/koa2-note/master/demo/request/post-middleware.js)
+[https://github.com/findwisdom/koa2-note/blob/master/demo/request/post-middleware.js](https://github.com/findwisdom/koa2-note/blob/master/demo/request/post-middleware.js)
 
 ```js
 const Koa = require('koa')
@@ -27,7 +27,7 @@ const bodyParser = require('koa-bodyparser')
 app.use(bodyParser())
 
 app.use( async ( ctx ) => {
-    
+
     if ( ctx.url === '/' && ctx.method === 'GET' ) {
     // 当GET请求时候返回表单页面
     let html = `

@@ -13,7 +13,7 @@ npm install --save koa-router@7
 
 demo源码
 
-[https://github.com/findwisdom/koa2-note/master/demo/route-use-middleware](/h ttps://github.com/findwisdom/koa2-note/master/demo/route-use-middleware)
+[https://github.com/findwisdom/koa2-note/tree/master/demo/route-use-middleware](https://github.com/findwisdom/koa2-note/tree/master/demo/route-use-middleware)
 
 ```js
 const Koa = require('koa')

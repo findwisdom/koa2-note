@@ -5,11 +5,11 @@
   "extension": null,
   "generator": "site",
   "plugins": [
-    "-search",
+    "search",
     "-sharing",
     "-lunr",
     "-fontsettings",
-    "toggle-chapters"
+    "-toggle-chapters"
   ],
   "title": "Sample GitBook",
   "variables": {}

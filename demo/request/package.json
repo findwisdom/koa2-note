@@ -1,11 +1,11 @@
-
 {
-  "name": "route-use-middleware",
+  "name": "request-get",
   "version": "1.0.0",
-  "description": "koa route demo",
+  "description": "koa request get",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "get": "node get.js",
+    "post": "node post.js"
   },
   "keywords": [
     "koajs"
@@ -14,7 +14,7 @@
   "license": "MIT",
   "dependencies": {
     "koa": "^2.3.0",
-    "koa-router": "^7.2.1"
+    "koa-bodyparser": "^3.2.0"
   },
   "engines": {
     "node": ">=7.6.0",

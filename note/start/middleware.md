@@ -1,7 +1,5 @@
 # koa中间件开发和使用
 
-> 注：原文地址在我的博客issue里[https://github.com/ChenShenhai/blog/issues/15](https://github.com/ChenShenhai/blog/issues/15)
-
 * koa v1和v2中使用到的中间件的开发和使用
 * generator 中间件开发在koa v1和v2中使用
 * async await 中间件开发和只能在koa v2中使用

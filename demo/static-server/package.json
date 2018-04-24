@@ -1,8 +1,7 @@
-
 {
-  "name": "route-use-middleware",
+  "name": "static-simple",
   "version": "1.0.0",
-  "description": "koa route demo",
+  "description": "koa start demo",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
@@ -13,8 +12,7 @@
   "author": "chenshenhai",
   "license": "MIT",
   "dependencies": {
-    "koa": "^2.3.0",
-    "koa-router": "^7.2.1"
+    "koa": "^2.3.0"
   },
   "engines": {
     "node": ">=7.6.0",

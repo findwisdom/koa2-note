@@ -13,7 +13,7 @@
 
 demo源码
 
-[https://github.com/findwisdom/koa2-note/master/demo/request/get.js](https://github.com/findwisdom/koa2-note/master/demo/request/get.js)
+[https://github.com/findwisdom/koa2-note/blob/master/demo/request/get.js](https://github.com/findwisdom/koa2-note/blob/master/demo/request/get.js)
 
 ### 例子代码
 ```js

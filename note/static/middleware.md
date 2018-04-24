@@ -3,7 +3,7 @@
 ## 使用例子
 demo源码
 
-[https://github.com/ChenShenhai/koa2-note/blob/master/demo/static-use-middleware/](https://github.com/ChenShenhai/koa2-note/blob/master/demo/static-use-middleware/)
+[https://github.com/findwisdom/koa2-note/tree/master/demo/static-use-middleware](https://github.com/findwisdom/koa2-note/tree/master/demo/static-use-middleware)
 
 ```js
 const Koa = require('koa')

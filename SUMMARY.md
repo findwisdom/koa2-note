@@ -19,7 +19,7 @@
 * [5 cookie](note/cookie/info.md)
     * [5.1 koa2使用cookie](note/cookie/info.md)
 * [6. 文件上传](note/upload/busboy.md)
-    * [7.1 busboy模块](note/upload/busboy.md)
-    * [7.2 上传文件简单实现](note/upload/simple.md)
-    * [7.3 异步上传图片实现](note/upload/pic-async.md)
+    * [6.1 busboy模块](note/upload/busboy.md)
+    * [6.2 上传文件简单实现](note/upload/simple.md)
+    * [6.3 异步上传图片实现](note/upload/pic-async.md)
 

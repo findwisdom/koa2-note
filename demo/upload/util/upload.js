@@ -1,24 +1,3 @@
-# 上传文件简单实现
-
-## 依赖模块
-
-### 安装依赖
-
-```sh
-npm install --save busboy
-```
-
-- busboy 是用来解析出请求中文件流
-
-## 例子源码
-
-demo源码
-
-[https://github.com/findwisdom/koa2-note/blob/master/demo/upload/](https://github.com/findwisdom/koa2-note/blob/master/demo/upload/)
-
-### 封装上传文件到写入服务的方法
-
-```js
 const inspect = require('util').inspect
 const path = require('path')
 const fs = require('fs')
@@ -60,32 +39,32 @@ function uploadFile( ctx, options) {
     let req = ctx.req
     let res = ctx.res
     let busboy = new Busboy({headers: req.headers})
-
+    
     // 获取类型
     let fileType = options.fileType || 'common'
     let filePath = path.join( options.path,  fileType)
     let mkdirResult = mkdirsSync( filePath )
-
+    
     return new Promise((resolve, reject) => {
         console.log('文件上传中...')
     let result = {
         success: false,
         formData: {},
     }
-
+    
     // 解析请求文件事件
     busboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
         let fileName = Math.random().toString(16).substr(2) + '.' + getSuffixName(filename)
         let _uploadFilePath = path.join( filePath, fileName )
         let saveTo = path.join(_uploadFilePath)
-
+        
         // 文件保存到制定路径
         file.pipe(fs.createWriteStream(saveTo))
         // 文件写入事件结束
         file.on('data', function(data) {
             console.log(`File [${fieldname}] got ${data.length} bytes`)
         })
-
+        
         // 文件写入事件结束
         file.on('end', function() {
             result.success = true
@@ -93,25 +72,25 @@ function uploadFile( ctx, options) {
             console.log('文件上传成功！')
         })
     })
-
+    
     // 解析表单中其他字段信息
     busboy.on('field', function(fieldname, val, fieldnameTruncated, valTruncated, encoding, mimetype) {
         console.log('表单字段数据 [' + fieldname + ']: value: ' + inspect(val));
         result.formData[fieldname] = inspect(val);
     });
-
+    
     // 解析结束事件
     busboy.on('finish', function( ) {
         console.log('文件上结束')
         resolve(result)
     })
-
+    
     // 解析错误事件
     busboy.on('error', function(err) {
         console.log('文件上出错')
         reject(result)
     })
-
+    
     req.pipe(busboy)
 })
 
@@ -121,64 +100,3 @@ function uploadFile( ctx, options) {
 module.exports =  {
     uploadFile
 }
-
-```
-
-### 入口文件
-```js
-const Koa = require('koa')
-const path = require('path')
-const app = new Koa()
-
-const { uploadFile } = require('./util/upload')
-
-app.use( async ( ctx ) => {
-
-    if ( ctx.url === '/' && ctx.method === 'GET' ) {
-    // 当GET请求时候返回表单页面
-    let html = `
-      <h1>koa2 upload demo</h1>
-      <form method="POST" action="/upload.json" enctype="multipart/form-data">
-        <p>file upload</p>
-        <span>picName:</span><input name="picName" type="text" /><br/>
-        <input name="file" type="file" /><br/><br/>
-        <button type="submit">submit</button>
-      </form>
-    `
-    ctx.body = html
-
-} else if ( ctx.url === '/upload.json' && ctx.method === 'POST' ) {
-    // 上传文件请求处理
-    let result = { success: false }
-    let serverFilePath = path.join( __dirname, 'upload-files' )
-
-    // 上传文件事件
-    result = await uploadFile( ctx, {
-        fileType: 'album',
-        path: serverFilePath
-    })
-
-    ctx.body = result
-} else {
-    // 其他请求显示404
-    ctx.body = '<h1>404！！！ o(╯□╰)o</h1>'
-}
-})
-
-app.listen(3000, () => {
-    console.log('[demo] upload-simple is starting at port 3000')
-})
-
-
-```
-
-### 运行结果
-
-![upload-simple-result](/assets/gitbook/upload-simple-result-1.png)
-
-![upload-simple-result](/assets/gitbook/upload-simple-result-2.png)
-
-![upload-simple-result](/assets/gitbook/upload-simple-result-3.png)
-
-![upload-simple-result](/assets/gitbook/upload-simple-result-4.png)
-

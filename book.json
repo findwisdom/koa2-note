@@ -5,12 +5,23 @@
   "extension": null,
   "generator": "site",
   "plugins": [
-    "search",
+    "yahei",
+    "katex",
+    "-search",
     "-sharing",
-    "-lunr",
     "-fontsettings",
-    "-toggle-chapters"
+    "search-pro"
   ],
+  "pdf": {
+    "pageNumbers": true,
+    "fontSize": 13,
+    "margin": {
+      "right": 10,
+      "left": 10,
+      "top": 10,
+      "bottom": 15
+    }
+  },
   "title": "Sample GitBook",
   "variables": {}
 }

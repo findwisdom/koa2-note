@@ -22,4 +22,9 @@
     * [6.1 busboy模块](note/upload/busboy.md)
     * [6.2 上传文件简单实现](note/upload/simple.md)
     * [6.3 异步上传图片实现](note/upload/pic-async.md)
+* 7 数据库mysql 与 mongodb
+    * [7.1 mysql模块](note/mysql/info.md)
+    * [7.2 async/await封装使用mysql](note/mysql/async.md)
+    * [7.3 项目建表初始化](note/mysql/init.md)
+    * [7.4 连接Mongodb](note/mongodb/info.md)
 

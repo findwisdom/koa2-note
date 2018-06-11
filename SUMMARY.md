@@ -25,6 +25,25 @@
 * 7 数据库mysql 与 mongodb
     * [7.1 mysql模块](note/mysql/info.md)
     * [7.2 async/await封装使用mysql](note/mysql/async.md)
-    * [7.3 项目建表初始化](note/mysql/init.md)
-    * [7.4 连接Mongodb](note/mongodb/info.md)
+    * [7.3 连接Mongodb](note/mongodb/info.md)
+    * [7.4 Mongoose 模块简介](note/mongodb/mongoose.md)
+    * [7.5 Mongoose 自定义方法](note/mongodb/define.md)
+    * [7.6 Mongoose 文档新增](note/mongodb/create.md)
+    * [7.7 Mongoose 文档查询](note/mongodb/query.md)
+    * [7.8 Mongoose 文档更新](note/mongodb/updata.md)
+    * [7.9 Mongoose 文档删除](note/mongodb/delect.md)
+    * [7.10 Mongoose 前后钩子及验证](note/mongodb/filter.md)
+    * [7.11 Mongoose 联表操作及总结](note/mongodb/table.md)
+* 8 爬虫项目实战
+    * [8.1 项目简介](note/crawl/quick.md)
+    * [8.2 框架设计](note/crawl/framework.md)
+    * [8.3 数据库设计](note/crawl/sql.md)
+* 9 企业级框架 egg.js
+    * [9.1 egg.js 简介](note/egg/info.md)
+    * [9.2 egg.js 简介与 koa2 关系](note/egg/relation.md)
+* 10 egg.js 实战小说阅读网
+    * [10.1 项目简介](note/reader/info.md)
+    * [10.2 框架设计](note/reader/framework.md)
+    * [10.3 阅读器功能](note/reader/reader.md)
+    * [10.4 主站体功能](note/reader/web.md)
 

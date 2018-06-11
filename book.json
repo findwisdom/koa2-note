@@ -9,7 +9,9 @@
     "katex",
     "-search",
     "-sharing",
+    "highlight",
     "-fontsettings",
+    "-lunr",
     "search-pro"
   ],
   "pdf": {

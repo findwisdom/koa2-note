@@ -794,7 +794,129 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="711-mongoose-&#x8054;&#x8868;&#x64CD;&#x4F5C;&#x53CA;&#x603B;&#x7ED3;">7.11 Mongoose &#x8054;&#x8868;&#x64CD;&#x4F5C;&#x53CA;&#x603B;&#x7ED3;</h1>
+                                <h1 id="mongoose-&#x8054;&#x8868;&#x64CD;&#x4F5C;&#x53CA;&#x603B;&#x7ED3;">Mongoose &#x8054;&#x8868;&#x64CD;&#x4F5C;&#x53CA;&#x603B;&#x7ED3;</h1>
+<p>&#x4E0B;&#x9762;&#x4EE5;&#x4E00;&#x4E2A;&#x5B9E;&#x4F8B;&#x7684;&#x5F62;&#x5F0F;&#x6765;&#x4ECB;&#x7ECD;&#x4E0B;mongoose&#x4E2D;&#x7684;&#x8054;&#x8868;&#x64CD;&#x4F5C;population</p>
+<p>&#x4EE5;&#x7C7B;&#x522B;category&#x548C;&#x6587;&#x7AE0;post&#x4E4B;&#x95F4;&#x7684;&#x5173;&#x8054;&#x4E3A;&#x4F8B;</p>
+<p>&#x5176;&#x4E2D;&#xFF0C;category&#x7684;model&#x5982;&#x4E0B;&#x6240;&#x793A;</p>
+<pre><code class="lang-js">
+<span class="hljs-keyword">const</span> mongoose = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;mongoose&apos;</span>)
+<span class="hljs-keyword">const</span> Schema = mongoose.Schema
+
+<span class="hljs-keyword">const</span> CategorySchema = <span class="hljs-keyword">new</span> Schema(
+  {
+    <span class="hljs-attr">number</span>: { <span class="hljs-attr">type</span>: <span class="hljs-built_in">Number</span>, <span class="hljs-attr">required</span>: <span class="hljs-literal">true</span>, <span class="hljs-attr">index</span>: <span class="hljs-literal">true</span>, <span class="hljs-attr">unique</span>: <span class="hljs-literal">true</span>, <span class="hljs-attr">min</span>:[<span class="hljs-number">1000000000</span>, <span class="hljs-string">&apos;&#x4F4D;&#x6570;&#x4E0D;&#x8DB3;&apos;</span>], <span class="hljs-attr">max</span>: [<span class="hljs-number">9999999999</span>, <span class="hljs-string">&apos;&#x4F4D;&#x6570;&#x8FC7;&#x957F;&apos;</span>] },
+    <span class="hljs-attr">name</span>: { <span class="hljs-attr">type</span>: <span class="hljs-built_in">String</span>, <span class="hljs-attr">required</span>: <span class="hljs-literal">true</span>, <span class="hljs-attr">validate</span>: { <span class="hljs-attr">validator</span>: <span class="hljs-function">(<span class="hljs-params">v</span>) =&gt;</span> v.trim().length, <span class="hljs-attr">message</span>: <span class="hljs-string">&apos;&#x540D;&#x79F0;&#x4E0D;&#x80FD;&#x4E3A;&#x7A7A;&apos;</span>} },
+    <span class="hljs-attr">description</span>: { <span class="hljs-attr">type</span>: <span class="hljs-built_in">String</span> },
+    <span class="hljs-attr">posts</span>: [{ <span class="hljs-attr">type</span>: Schema.Types.ObjectId, <span class="hljs-attr">ref</span>: <span class="hljs-string">&apos;Post&apos;</span> }],
+    <span class="hljs-attr">recommend</span>: { <span class="hljs-attr">type</span>: <span class="hljs-built_in">Boolean</span> },
+    <span class="hljs-attr">index</span>: { <span class="hljs-attr">type</span>: <span class="hljs-built_in">Number</span> }
+  },
+  { <span class="hljs-attr">timestamps</span>: <span class="hljs-literal">true</span> }
+)
+
+<span class="hljs-built_in">module</span>.exports = mongoose.model(<span class="hljs-string">&apos;Category&apos;</span>, CategorySchema)
+</code></pre>
+<p>post&#x7684;model&#x5982;&#x4E0B;&#x6240;&#x793A;</p>
+<pre><code class="lang-js">
+<span class="hljs-keyword">const</span> mongoose = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;mongoose&apos;</span>)
+<span class="hljs-keyword">const</span> Schema = mongoose.Schema
+
+<span class="hljs-keyword">const</span> PostSchema = <span class="hljs-keyword">new</span> Schema(
+  {
+    <span class="hljs-attr">title</span>: { <span class="hljs-attr">type</span>: <span class="hljs-built_in">String</span>, <span class="hljs-attr">required</span>: <span class="hljs-literal">true</span>, <span class="hljs-attr">unique</span>: <span class="hljs-literal">true</span> },
+    <span class="hljs-attr">description</span>: { <span class="hljs-attr">type</span>: <span class="hljs-built_in">String</span> },
+    <span class="hljs-attr">content</span>: { <span class="hljs-attr">type</span>: <span class="hljs-built_in">String</span> },
+    <span class="hljs-attr">category</span>: { <span class="hljs-attr">type</span>: Schema.Types.ObjectId, <span class="hljs-attr">ref</span>: <span class="hljs-string">&apos;Category&apos;</span>, <span class="hljs-attr">index</span>: <span class="hljs-literal">true</span> },
+    <span class="hljs-attr">comments</span>: [{ <span class="hljs-attr">type</span>: Schema.Types.ObjectId, <span class="hljs-attr">ref</span>: <span class="hljs-string">&apos;Comment&apos;</span> }],
+    <span class="hljs-attr">likes</span>: [{ <span class="hljs-attr">type</span>: Schema.Types.ObjectId, <span class="hljs-attr">ref</span>: <span class="hljs-string">&apos;Like&apos;</span> }],
+    <span class="hljs-attr">imgUrl</span>: { <span class="hljs-attr">type</span>: <span class="hljs-built_in">String</span> },
+    <span class="hljs-attr">recommend</span>: { <span class="hljs-attr">type</span>: <span class="hljs-built_in">Boolean</span> },
+    <span class="hljs-attr">index</span>: { <span class="hljs-attr">type</span>: <span class="hljs-built_in">Number</span> }
+  },
+  {
+    <span class="hljs-attr">timestamps</span>: <span class="hljs-literal">true</span>
+  }
+)
+
+<span class="hljs-built_in">module</span>.exports = mongoose.model(<span class="hljs-string">&apos;Post&apos;</span>, PostSchema)
+</code></pre>
+<p>&#x5728;&#x5BF9;&#x7C7B;&#x522B;&#x7684;&#x64CD;&#x4F5C;&#x4E2D;&#xFF0C; &#x90FD;&#x9700;&#x8981;&#x4F7F;&#x7528;populate&#x64CD;&#x4F5C;&#x7B26;&#x663E;&#x793A;&#x51FA;&#x6240;&#x5305;&#x62EC;&#x7684;posts&#x4E2D;&#x7684;title</p>
+<pre><code class="lang-js"><span class="hljs-comment">/* &#x52A0;&#x8F7D;&#x6240;&#x6709;&#x7C7B;&#x522B; */</span>
+  app.get(<span class="hljs-string">&apos;/categories&apos;</span>, (req, res) =&gt; {
+    Category.find().populate(<span class="hljs-string">&apos;posts&apos;</span>,<span class="hljs-string">&apos;title&apos;</span>).select(<span class="hljs-string">&quot;number name description recommend index&quot;</span>).exec(<span class="hljs-function">(<span class="hljs-params">err, docs</span>) =&gt;</span> {
+      <span class="hljs-keyword">if</span> (err) <span class="hljs-keyword">return</span> res.status(<span class="hljs-number">500</span>).json({<span class="hljs-attr">code</span>: <span class="hljs-number">0</span>, <span class="hljs-attr">message</span>: err.message, err})
+      <span class="hljs-keyword">return</span> res.status(<span class="hljs-number">200</span>).json({<span class="hljs-attr">code</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">message</span>: <span class="hljs-string">&apos;&#x83B7;&#x53D6;&#x7C7B;&#x522B;&#x6210;&#x529F;&apos;</span>, <span class="hljs-attr">result</span>: {docs}})
+    })
+  })
+
+  <span class="hljs-comment">/* &#x65B0;&#x589E;&#x4E00;&#x4E2A;&#x7C7B;&#x522B; */</span>
+  app.post(<span class="hljs-string">&apos;/categories&apos;</span>, adminAuth, (req, res) =&gt; {
+    <span class="hljs-keyword">new</span> Category(req.body).save(<span class="hljs-function">(<span class="hljs-params">err, doc</span>) =&gt;</span> {
+      <span class="hljs-keyword">if</span> (err) <span class="hljs-keyword">return</span> res.status(<span class="hljs-number">500</span>).json({<span class="hljs-attr">code</span>: <span class="hljs-number">0</span>, <span class="hljs-attr">message</span>: err.message, err})
+      doc.populate({<span class="hljs-attr">path</span>:<span class="hljs-string">&apos;posts&apos;</span>,<span class="hljs-attr">select</span>:<span class="hljs-string">&apos;title&apos;</span>}, (err, doc) =&gt; {
+        <span class="hljs-keyword">if</span> (err) <span class="hljs-keyword">return</span> res.status(<span class="hljs-number">500</span>).json({<span class="hljs-attr">code</span>:<span class="hljs-number">0</span>, <span class="hljs-attr">message</span>: err.message, err})
+        <span class="hljs-keyword">return</span> res.status(<span class="hljs-number">200</span>).json({<span class="hljs-attr">code</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">message</span>: <span class="hljs-string">&apos;&#x65B0;&#x589E;&#x6210;&#x529F;&apos;</span>, <span class="hljs-attr">result</span>: {doc}})
+      })
+    })
+  })
+...
+</code></pre>
+<p>&#x5728;&#x5BF9;&#x6587;&#x7AE0;&#x7684;&#x64CD;&#x4F5C;&#x4E2D;&#xFF0C;&#x5219;&#x9700;&#x8981;&#x663E;&#x793A;&#x51FA;&#x7C7B;&#x522B;category&#x7684;number&#x5C5E;&#x6027;</p>
+<pre><code class="lang-js"><span class="hljs-comment">/* &#x6309;&#x7167;id&#x52A0;&#x8F7D;&#x4E00;&#x7BC7;&#x6587;&#x7AE0; */</span>
+  app.get(<span class="hljs-string">&apos;/posts/:id&apos;</span>, (req, res) =&gt; {
+    Post.findById(req.params.id).populate(<span class="hljs-string">&apos;category&apos;</span>,<span class="hljs-string">&apos;number&apos;</span>).exec(<span class="hljs-function">(<span class="hljs-params">err, doc</span>) =&gt;</span> {
+      <span class="hljs-keyword">if</span> (err) <span class="hljs-keyword">return</span> res.status(<span class="hljs-number">500</span>).json({<span class="hljs-attr">code</span>:<span class="hljs-number">0</span>, <span class="hljs-attr">message</span>:err.message, err})
+      <span class="hljs-keyword">if</span> (doc === <span class="hljs-literal">null</span>) <span class="hljs-keyword">return</span> res.status(<span class="hljs-number">404</span>).json({<span class="hljs-attr">code</span>:<span class="hljs-number">0</span>, <span class="hljs-attr">message</span>:<span class="hljs-string">&apos;&#x6587;&#x7AE0;&#x4E0D;&#x5B58;&#x5728;&apos;</span>})
+      <span class="hljs-keyword">return</span> res.status(<span class="hljs-number">200</span>).json({<span class="hljs-attr">code</span>:<span class="hljs-number">1</span>, <span class="hljs-attr">message</span>:<span class="hljs-string">&apos;&#x83B7;&#x53D6;&#x6587;&#x7AE0;&#x6210;&#x529F;&apos;</span>, <span class="hljs-attr">result</span>:{doc}})
+    })
+  })
+
+  <span class="hljs-comment">/* &#x52A0;&#x8F7D;&#x6240;&#x6709;&#x6587;&#x7AE0; */</span>
+  app.get(<span class="hljs-string">&apos;/posts&apos;</span>, (req, res) =&gt; {
+    Post.find().select(<span class="hljs-string">&quot;title likes comments recommend imgUrl index&quot;</span>).populate(<span class="hljs-string">&apos;category&apos;</span>,<span class="hljs-string">&apos;number&apos;</span>).sort(<span class="hljs-string">&quot;-createdAt&quot;</span>).exec(<span class="hljs-function">(<span class="hljs-params">err, docs</span>) =&gt;</span> {
+      <span class="hljs-keyword">if</span> (err) <span class="hljs-keyword">return</span> res.status(<span class="hljs-number">500</span>).json({<span class="hljs-attr">code</span>: <span class="hljs-number">0</span>, <span class="hljs-attr">message</span>: err.message, err})
+      <span class="hljs-keyword">return</span> res.status(<span class="hljs-number">200</span>).json({<span class="hljs-attr">code</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">message</span>: <span class="hljs-string">&apos;&#x83B7;&#x53D6;&#x6587;&#x7AE0;&#x6210;&#x529F;&apos;</span>, <span class="hljs-attr">result</span>: {docs}})
+    })
+</code></pre>
+<p>&#x5728;&#x65B0;&#x589E;&#x3001;&#x66F4;&#x65B0;&#x548C;&#x5220;&#x9664;&#x6587;&#x7AE0;&#x7684;&#x64CD;&#x4F5C;&#x4E2D;&#xFF0C;&#x90FD;&#x9700;&#x8981;&#x91CD;&#x5EFA;&#x4E0E;category&#x7684;&#x5173;&#x8054;</p>
+<pre><code class="lang-js"><span class="hljs-comment">/* &#x6309;&#x7167;id&#x52A0;&#x8F7D;&#x4E00;&#x7BC7;&#x6587;&#x7AE0; */</span>
+  <span class="hljs-comment">// &#x5173;&#x8054;category&#x7684;posts&#x6570;&#x7EC4;</span>
+  fnRelatedCategory = <span class="hljs-function"><span class="hljs-params">_id</span> =&gt;</span> {
+    Category.findById(_id).exec(<span class="hljs-function">(<span class="hljs-params">err, categoryDoc</span>) =&gt;</span> {
+      <span class="hljs-keyword">if</span> (err) <span class="hljs-keyword">return</span> res.status(<span class="hljs-number">500</span>).json({ <span class="hljs-attr">code</span>: <span class="hljs-number">0</span>, <span class="hljs-attr">message</span>: err.message, err })
+      <span class="hljs-keyword">if</span> (categoryDoc === <span class="hljs-literal">null</span>) <span class="hljs-keyword">return</span> res.status(<span class="hljs-number">404</span>).json({<span class="hljs-attr">code</span>:<span class="hljs-number">0</span>, <span class="hljs-attr">message</span>:<span class="hljs-string">&apos;&#x8BE5;&#x7C7B;&#x522B;&#x4E0D;&#x5B58;&#x5728;&#xFF0C;&#x8BF7;&#x5237;&#x65B0;&#x540E;&#x518D;&#x8BD5;&apos;</span>})
+      Post.find({ <span class="hljs-attr">category</span>: _id }).exec(<span class="hljs-function">(<span class="hljs-params">err, postsDocs</span>) =&gt;</span> {
+        <span class="hljs-keyword">if</span> (err) <span class="hljs-keyword">return</span> res.status(<span class="hljs-number">500</span>).json({ <span class="hljs-attr">code</span>: <span class="hljs-number">0</span>, <span class="hljs-attr">message</span>: err.message, err })
+        categoryDoc.posts = postsDocs.map(<span class="hljs-function"><span class="hljs-params">t</span> =&gt;</span> t._id)
+        categoryDoc.save(<span class="hljs-function"><span class="hljs-params">err</span> =&gt;</span> {
+          <span class="hljs-keyword">if</span> (err) <span class="hljs-keyword">return</span> res.status(<span class="hljs-number">500</span>).json({ <span class="hljs-attr">code</span>: <span class="hljs-number">0</span>, <span class="hljs-attr">message</span>: err.message, err })
+        })
+      })
+    })
+  }
+
+    <span class="hljs-comment">/* &#x6309;&#x7167;id&#x66F4;&#x65B0;&#x4E00;&#x7BC7;&#x6587;&#x7AE0; */</span>
+    app.put(<span class="hljs-string">&apos;/posts/:id&apos;</span>, adminAuth, (req, res) =&gt; {
+      Post.findById(req.params.id).exec(<span class="hljs-function">(<span class="hljs-params">err, doc</span>) =&gt;</span> {
+        <span class="hljs-keyword">if</span> (err) <span class="hljs-keyword">return</span> res.status(<span class="hljs-number">500</span>).json({<span class="hljs-attr">code</span>: <span class="hljs-number">0</span>, <span class="hljs-attr">message</span>: err.message, err})
+        <span class="hljs-keyword">if</span> (doc === <span class="hljs-literal">null</span>) <span class="hljs-keyword">return</span> res.status(<span class="hljs-number">404</span>).json({<span class="hljs-attr">code</span>: <span class="hljs-number">0</span>, <span class="hljs-attr">message</span>: <span class="hljs-string">&apos;&#x6587;&#x7AE0;&#x4E0D;&#x5B58;&#x5728;&#xFF0C;&#x8BF7;&#x5237;&#x65B0;&#x540E;&#x518D;&#x8BD5;&apos;</span>})
+        <span class="hljs-keyword">for</span> (prop <span class="hljs-keyword">in</span> req.body) {
+          doc[prop] = req.body[prop]
+        }
+        doc.save(<span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> {
+          <span class="hljs-keyword">if</span> (err) <span class="hljs-keyword">return</span> res.status(<span class="hljs-number">500</span>).json({<span class="hljs-attr">code</span>: <span class="hljs-number">0</span>, <span class="hljs-attr">message</span>: err.message, err})
+          doc.populate({<span class="hljs-attr">path</span>:<span class="hljs-string">&apos;category&apos;</span>,<span class="hljs-attr">select</span>:<span class="hljs-string">&apos;number&apos;</span>}, (err, doc) =&gt; {
+            <span class="hljs-keyword">if</span> (err) <span class="hljs-keyword">return</span> res.status(<span class="hljs-number">500</span>).json({<span class="hljs-attr">code</span>:<span class="hljs-number">0</span>, <span class="hljs-attr">message</span>: err.message, err})
+            fnRelatedCategory(doc.category._id)
+            <span class="hljs-keyword">return</span> res.status(<span class="hljs-number">200</span>).json({<span class="hljs-attr">code</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">message</span>: <span class="hljs-string">&apos;&#x66F4;&#x65B0;&#x6210;&#x529F;&apos;</span>, <span class="hljs-attr">result</span>: {doc}})
+          })
+        })
+      })
+    })
+  ...
+</code></pre>
+<h3 id="&#x603B;&#x7ED3;">&#x603B;&#x7ED3;</h3>
+<p>mongoose&#x64CD;&#x4F5C;&#x57FA;&#x7840;&#x5165;&#x95E8;&#x5927;&#x81F4;&#x5C31;&#x662F;&#x4EE5;&#x4E0A;&#x8FD9;&#x4E9B;&#x3002;mongoose&#x7684;&#x5F88;&#x591A;&#x64CD;&#x4F5C;&#x4E0E;mongodb&#x7684;&#x64CD;&#x4F5C;&#x547D;&#x4EE4;&#x975E;&#x5E38;&#x7C7B;&#x4F3C;&#xFF0C;&#x5B66;&#x8D77;&#x6765;&#x5E76;&#x4E0D;&#x96BE;&#x3002;&#x4F46;&#x662F;&#xFF0C;&#x7531;&#x4E8E;&#x4E2D;&#x6587;&#x8D44;&#x6E90;&#x5E76;&#x4E0D;&#x5B8C;&#x5584;&#xFF0C;&#x9700;&#x8981;&#x5BF9;&#x7167;<a href="http://mongoosejs.com/" target="_blank">&#x82F1;&#x6587;&#x6587;&#x6863;</a>&#x8FDB;&#x884C;&#x5B66;&#x4E60;&#xFF0C;&#x53EF;&#x80FD;&#x4F1A;&#x7A0D;&#x663E;&#x5403;&#x529B;&#x3002;&#x800C;&#x4E14;&#xFF0C;mongoose&#x5BF9;mongodb&#x505A;&#x4E86;&#x8BB8;&#x591A;&#x6269;&#x5C55;&#xFF0C;&#x589E;&#x52A0;&#x4E86;&#x8BB8;&#x591A;&#x65B9;&#x6CD5;&#xFF0C;&#x9700;&#x8981;&#x66F4;&#x591A;&#x8010;&#x5FC3;</p>
 
                                 
                                 </section>
@@ -834,7 +956,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"7.11 Mongoose 联表操作及总结","level":"1.8.11","depth":2,"next":{"title":"8 爬虫项目实战","level":"1.9","depth":1,"ref":"","articles":[{"title":"8.1 项目简介","level":"1.9.1","depth":2,"path":"note/crawl/quick.md","ref":"note/crawl/quick.md","articles":[]},{"title":"8.2 框架设计","level":"1.9.2","depth":2,"path":"note/crawl/framework.md","ref":"note/crawl/framework.md","articles":[]},{"title":"8.3 数据库设计","level":"1.9.3","depth":2,"path":"note/crawl/sql.md","ref":"note/crawl/sql.md","articles":[]}]},"previous":{"title":"7.10 Mongoose 前后钩子及验证","level":"1.8.10","depth":2,"path":"note/mongodb/filter.md","ref":"note/mongodb/filter.md","articles":[]},"dir":"ltr"},"config":{"plugins":["yahei","katex","-search","-sharing","highlight","-fontsettings","-lunr","search-pro"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"yahei":{},"katex":{},"highlight":{},"search-pro":{},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"XuTingLuo","pdf":{"pageNumbers":true,"fontSize":13,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":10,"left":10,"top":10,"bottom":15}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Sample GitBook","language":"zh-hans","gitbook":"*","description":"This is a sample book created by gitbook","extension":null},"file":{"path":"note/mongodb/table.md","mtime":"2018-08-31T08:33:27.648Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-08-31T08:34:32.437Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"7.11 Mongoose 联表操作及总结","level":"1.8.11","depth":2,"next":{"title":"8 爬虫项目实战","level":"1.9","depth":1,"ref":"","articles":[{"title":"8.1 项目简介","level":"1.9.1","depth":2,"path":"note/crawl/quick.md","ref":"note/crawl/quick.md","articles":[]},{"title":"8.2 框架设计","level":"1.9.2","depth":2,"path":"note/crawl/framework.md","ref":"note/crawl/framework.md","articles":[]},{"title":"8.3 数据库设计","level":"1.9.3","depth":2,"path":"note/crawl/sql.md","ref":"note/crawl/sql.md","articles":[]}]},"previous":{"title":"7.10 Mongoose 前后钩子及验证","level":"1.8.10","depth":2,"path":"note/mongodb/filter.md","ref":"note/mongodb/filter.md","articles":[]},"dir":"ltr"},"config":{"plugins":["yahei","katex","-search","-sharing","highlight","-fontsettings","-lunr","search-pro"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"yahei":{},"katex":{},"highlight":{},"search-pro":{},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"XuTingLuo","pdf":{"pageNumbers":true,"fontSize":13,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":10,"left":10,"top":10,"bottom":15}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Sample GitBook","language":"zh-hans","gitbook":"*","description":"This is a sample book created by gitbook","extension":null},"file":{"path":"note/mongodb/table.md","mtime":"2018-07-25T01:58:09.849Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-08-31T09:00:04.966Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>

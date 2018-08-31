@@ -1,0 +1,27 @@
+{
+  "name": "koa2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/findwisdom/koa2-note.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/findwisdom/koa2-note/issues"
+  },
+  "homepage": "https://github.com/findwisdom/koa2-note#readme",
+  "dependencies": {
+    "fs": "0.0.1-security",
+    "koa": "^2.5.0",
+    "koa-router": "^7.4.0"
+  }
+}

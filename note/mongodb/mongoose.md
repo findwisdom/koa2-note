@@ -2,6 +2,8 @@
 
 Mongoose是在node.js异步环境下对mongodb进行便捷操作的对象模型工具。本文将详细介绍如何使用Mongoose来操作MongoDB
 
+详细内容请参考[官方文档](http://mongoosejs.com/)
+
 ### 概述
 Mongoose是NodeJS的驱动，不能作为其他语言的驱动。Mongoose有两个特点
 

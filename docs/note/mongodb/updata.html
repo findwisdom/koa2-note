@@ -796,7 +796,139 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="78-mongoose-&#x6587;&#x6863;&#x66F4;&#x65B0;">7.8 Mongoose &#x6587;&#x6863;&#x66F4;&#x65B0;</h1>
+                                <h1 id="mongoose-&#x6587;&#x6863;&#x66F4;&#x65B0;">Mongoose &#x6587;&#x6863;&#x66F4;&#x65B0;</h1>
+<p>&#x6587;&#x6863;&#x66F4;&#x65B0;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x4EE5;&#x4E0B;&#x51E0;&#x79CD;&#x65B9;&#x6CD5;</p>
+<pre><code class="lang-js">update()
+updateMany()
+find() + save()
+updateOne()
+findOne() + save()
+findByIdAndUpdate()
+fingOneAndUpdate()
+</code></pre>
+<h4 id="update">[update()]</h4>
+<p>&#x7B2C;&#x4E00;&#x4E2A;&#x53C2;&#x6570;conditions&#x4E3A;&#x67E5;&#x8BE2;&#x6761;&#x4EF6;&#xFF0C;&#x7B2C;&#x4E8C;&#x4E2A;&#x53C2;&#x6570;doc&#x4E3A;&#x9700;&#x8981;&#x4FEE;&#x6539;&#x7684;&#x6570;&#x636E;&#xFF0C;&#x7B2C;&#x4E09;&#x4E2A;&#x53C2;&#x6570;options&#x4E3A;&#x63A7;&#x5236;&#x9009;&#x9879;&#xFF0C;&#x7B2C;&#x56DB;&#x4E2A;&#x53C2;&#x6570;&#x662F;&#x56DE;&#x8C03;&#x51FD;&#x6570;</p>
+<pre><code class="lang-js">Model.update(conditions, doc, [options], [callback])
+</code></pre>
+<p>options&#x6709;&#x5982;&#x4E0B;&#x9009;&#x9879;</p>
+<pre><code>safe (boolean)&#xFF1A; &#x9ED8;&#x8BA4;&#x4E3A;true&#x3002;&#x5B89;&#x5168;&#x6A21;&#x5F0F;&#x3002;
+upsert (boolean)&#xFF1A; &#x9ED8;&#x8BA4;&#x4E3A;false&#x3002;&#x5982;&#x679C;&#x4E0D;&#x5B58;&#x5728;&#x5219;&#x521B;&#x5EFA;&#x65B0;&#x8BB0;&#x5F55;&#x3002;
+multi (boolean)&#xFF1A; &#x9ED8;&#x8BA4;&#x4E3A;false&#x3002;&#x662F;&#x5426;&#x66F4;&#x65B0;&#x591A;&#x4E2A;&#x67E5;&#x8BE2;&#x8BB0;&#x5F55;&#x3002;
+runValidators&#xFF1A; &#x5982;&#x679C;&#x503C;&#x4E3A;true&#xFF0C;&#x6267;&#x884C;Validation&#x9A8C;&#x8BC1;&#x3002;
+setDefaultsOnInsert&#xFF1A; &#x5982;&#x679C;upsert&#x9009;&#x9879;&#x4E3A;true&#xFF0C;&#x5728;&#x65B0;&#x5EFA;&#x65F6;&#x63D2;&#x5165;&#x6587;&#x6863;&#x5B9A;&#x4E49;&#x7684;&#x9ED8;&#x8BA4;&#x503C;&#x3002;
+strict (boolean)&#xFF1A; &#x4EE5;strict&#x6A21;&#x5F0F;&#x8FDB;&#x884C;&#x66F4;&#x65B0;&#x3002;
+overwrite (boolean)&#xFF1A; &#x9ED8;&#x8BA4;&#x4E3A;false&#x3002;&#x7981;&#x7528;update-only&#x6A21;&#x5F0F;&#xFF0C;&#x5141;&#x8BB8;&#x8986;&#x76D6;&#x8BB0;&#x5F55;&#x3002;
+</code></pre><p>&#x6570;&#x636E;&#x5E93;temps&#x4E2D;&#x73B0;&#x6709;&#x6570;&#x636E;&#x5982;&#x4E0B;</p>
+<p><img src="../../assets/gitbook/moogose_4.png" alt="moogose_4"></p>
+<p>&#x73B0;&#x5728;&#x4F7F;&#x7528;update()&#x65B9;&#x6CD5;&#x67E5;&#x8BE2;age&#x5927;&#x4E8E;20&#x7684;&#x6570;&#x636E;&#xFF0C;&#x5E76;&#x5C06;&#x5176;&#x5E74;&#x9F84;&#x66F4;&#x6539;&#x4E3A;40&#x5C81;</p>
+<pre><code class="lang-js"><span class="hljs-keyword">var</span> mongoose = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;mongoose&apos;</span>);
+mongoose.connect(<span class="hljs-string">&quot;mongodb://u1:123456@localhost/db1&quot;</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err</span>) </span>{
+    <span class="hljs-keyword">if</span>(!err){
+        <span class="hljs-keyword">var</span> schema = <span class="hljs-keyword">new</span> mongoose.Schema({ <span class="hljs-attr">age</span>:<span class="hljs-built_in">Number</span>, <span class="hljs-attr">name</span>: <span class="hljs-built_in">String</span>});
+        <span class="hljs-keyword">var</span> temp = mongoose.model(<span class="hljs-string">&apos;temp&apos;</span>, schema);
+        temp.update({<span class="hljs-attr">age</span>:{<span class="hljs-attr">$gte</span>:<span class="hljs-number">20</span>}},{<span class="hljs-attr">age</span>:<span class="hljs-number">40</span>},<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err,raw</span>)</span>{
+            <span class="hljs-comment">//{ n: 1, nModified: 1, ok: 1 }</span>
+            <span class="hljs-built_in">console</span>.log(raw);
+        })
+
+    }
+});
+</code></pre>
+<p>&#x7ECF;&#x8FC7;&#x4EE5;&#x4E0A;&#x64CD;&#x4F5C;&#xFF0C;&#x6570;&#x636E;&#x5E93;&#x7ED3;&#x679C;&#x5982;&#x4E0B;&#x3002;&#x53EA;&#x6709;&#x7B2C;&#x4E00;&#x4E2A;&#x6570;&#x636E;&#x66F4;&#x6539;&#x4E3A;40&#x5C81;&#x3002;&#x800C;&#x7B2C;&#x4E09;&#x4E2A;&#x6570;&#x636E;&#x6CA1;&#x6709;&#x53D1;&#x751F;&#x53D8;&#x5316;</p>
+<p><img src="../../assets/gitbook/moogose_5.png" alt="moogose_5"></p>
+<p>&#x5982;&#x679C;&#x8981;&#x540C;&#x65F6;&#x66F4;&#x65B0;&#x591A;&#x4E2A;&#x8BB0;&#x5F55;&#xFF0C;&#x9700;&#x8981;&#x8BBE;&#x7F6E;options&#x91CC;&#x7684;multi&#x4E3A;true&#x3002;&#x4E0B;&#x9762;&#x5C06;&#x540D;&#x5B57;&#x4E2D;&#x6709;&apos;a&apos;&#x5B57;&#x7B26;&#x7684;&#x5E74;&#x9F84;&#x8BBE;&#x7F6E;&#x4E3A;10&#x5C81;</p>
+<pre><code class="lang-js"><span class="hljs-keyword">var</span> mongoose = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;mongoose&apos;</span>);
+mongoose.connect(<span class="hljs-string">&quot;mongodb://u1:123456@localhost/db1&quot;</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err</span>) </span>{
+    <span class="hljs-keyword">if</span>(!err){
+        <span class="hljs-keyword">var</span> schema = <span class="hljs-keyword">new</span> mongoose.Schema({ <span class="hljs-attr">age</span>:<span class="hljs-built_in">Number</span>, <span class="hljs-attr">name</span>: <span class="hljs-built_in">String</span>});
+        <span class="hljs-keyword">var</span> temp = mongoose.model(<span class="hljs-string">&apos;temp&apos;</span>, schema);
+        temp.update({<span class="hljs-attr">name</span>:<span class="hljs-regexp">/a/</span>},{<span class="hljs-attr">age</span>: <span class="hljs-number">10</span>},{<span class="hljs-attr">multi</span>:<span class="hljs-literal">true</span>},<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err,raw</span>)</span>{
+            <span class="hljs-comment">//{ n: 2, nModified: 2, ok: 1 }</span>
+            <span class="hljs-built_in">console</span>.log(raw);
+        })
+
+    }
+});
+</code></pre>
+<p><img src="../../assets/gitbook/moogose_6.png" alt="moogose_5"></p>
+<p>&#x5982;&#x679C;&#x8BBE;&#x7F6E;&#x7684;&#x67E5;&#x627E;&#x6761;&#x4EF6;&#xFF0C;&#x6570;&#x636E;&#x5E93;&#x91CC;&#x7684;&#x6570;&#x636E;&#x5E76;&#x4E0D;&#x6EE1;&#x8DB3;&#xFF0C;&#x9ED8;&#x8BA4;&#x4EC0;&#x4E48;&#x4E8B;&#x90FD;&#x4E0D;&#x53D1;&#x751F;</p>
+<pre><code class="lang-js">temp.update({<span class="hljs-attr">age</span>:<span class="hljs-number">100</span>},{<span class="hljs-attr">name</span>: <span class="hljs-string">&quot;hundred&quot;</span>},<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err,raw</span>)</span>{
+    <span class="hljs-comment">//{ n: 0, nModified: 0, ok: 1 }</span>
+    <span class="hljs-built_in">console</span>.log(raw);
+})
+</code></pre>
+<p>&#x5982;&#x679C;&#x8BBE;&#x7F6E;options&#x91CC;&#x7684;upsert&#x53C2;&#x6570;&#x4E3A;true&#xFF0C;&#x82E5;&#x6CA1;&#x6709;&#x7B26;&#x5408;&#x67E5;&#x8BE2;&#x6761;&#x4EF6;&#x7684;&#x6587;&#x6863;&#xFF0C;mongo&#x5C06;&#x4F1A;&#x7EFC;&#x5408;&#x7B2C;&#x4E00;&#x7B2C;&#x4E8C;&#x4E2A;&#x53C2;&#x6570;&#x5411;&#x96C6;&#x5408;&#x63D2;&#x5165;&#x4E00;&#x4E2A;&#x65B0;&#x7684;&#x6587;&#x6863;</p>
+<pre><code class="lang-js">temp.update({<span class="hljs-attr">age</span>:<span class="hljs-number">100</span>},{<span class="hljs-attr">name</span>: <span class="hljs-string">&quot;hundred&quot;</span>},{<span class="hljs-attr">upsert</span>:<span class="hljs-literal">true</span>},<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err,raw</span>)</span>{
+    <span class="hljs-comment">//{ n: 1, nModified: 0,upserted: [ { index: 0, _id: 5972c202d46b621fca7fc8c7 } ], ok: 1 }</span>
+    <span class="hljs-built_in">console</span>.log(raw);
+})
+</code></pre>
+<p><img src="../../assets/gitbook/moogose_7.png" alt="moogose_7"></p>
+<pre><code class="lang-js">temp.update({<span class="hljs-attr">name</span>:<span class="hljs-regexp">/aa/</span>},{<span class="hljs-attr">age</span>: <span class="hljs-number">0</span>},{<span class="hljs-attr">upsert</span>:<span class="hljs-literal">true</span>},<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err,raw</span>)</span>{
+    <span class="hljs-comment">//{ n: 1, nModified: 0,upserted: [ { index: 0, _id: 5972c288d46b621fca7fdd8f } ], ok: 1 }</span>
+    <span class="hljs-built_in">console</span>.log(raw);
+})
+</code></pre>
+<p><img src="../../assets/gitbook/moogose_8.png" alt="moogose_8"></p>
+<ul>
+<li>[&#x6CE8;&#x610F;]update()&#x65B9;&#x6CD5;&#x4E2D;&#x7684;&#x56DE;&#x8C03;&#x51FD;&#x6570;&#x4E0D;&#x80FD;&#x7701;&#x7565;&#xFF0C;&#x5426;&#x5219;&#x6570;&#x636E;&#x4E0D;&#x4F1A;&#x88AB;&#x66F4;&#x65B0;&#x3002;&#x5982;&#x679C;&#x56DE;&#x8C03;&#x51FD;&#x6570;&#x91CC;&#x5E76;&#x6CA1;&#x6709;&#x4EC0;&#x4E48;&#x6709;&#x7528;&#x7684;&#x4FE1;&#x606F;&#xFF0C;&#x5219;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;exec()&#x7B80;&#x5316;&#x4EE3;&#x7801;</li>
+</ul>
+<pre><code class="lang-js">temp.update({<span class="hljs-attr">name</span>:<span class="hljs-regexp">/aa/</span>},{<span class="hljs-attr">age</span>: <span class="hljs-number">0</span>},{<span class="hljs-attr">upsert</span>:<span class="hljs-literal">true</span>}).exec();
+</code></pre>
+<h4 id="updatemany">[updateMany()]</h4>
+<p>updateMany()&#x4E0E;update()&#x65B9;&#x6CD5;&#x552F;&#x4E00;&#x7684;&#x533A;&#x522B;&#x5C31;&#x662F;&#x9ED8;&#x8BA4;&#x66F4;&#x65B0;&#x591A;&#x4E2A;&#x6587;&#x6863;&#xFF0C;&#x5373;&#x4F7F;&#x8BBE;&#x7F6E;{multi:false}&#x4E5F;&#x65E0;&#x6CD5;&#x53EA;&#x66F4;&#x65B0;&#x7B2C;&#x4E00;&#x4E2A;&#x6587;&#x6863;</p>
+<pre><code class="lang-js">Model.updateMany(conditions, doc, [options], [callback])
+</code></pre>
+<p>&#x5C06;&#x6570;&#x636E;&#x5E93;&#x4E2D;&#x540D;&#x5B57;&#x4E2D;&#x5E26;&#x6709;&apos;huo&apos;&#x7684;&#x6570;&#x636E;&#xFF0C;&#x5E74;&#x9F84;&#x53D8;&#x4E3A;50&#x5C81;</p>
+<pre><code class="lang-js">temp.updateMany({<span class="hljs-attr">name</span>:<span class="hljs-regexp">/huo/</span>},{<span class="hljs-attr">age</span>:<span class="hljs-number">50</span>},<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err,raw</span>)</span>{
+    <span class="hljs-comment">//{ n: 2, nModified: 2, ok: 1 }</span>
+    <span class="hljs-built_in">console</span>.log(raw);
+});
+</code></pre>
+<p><img src="../../assets/gitbook/moogose_9.png" alt="moogose_9"></p>
+<h4 id="find--save">[find() + save()]</h4>
+<p>&#x5982;&#x679C;&#x9700;&#x8981;&#x66F4;&#x65B0;&#x7684;&#x64CD;&#x4F5C;&#x6BD4;&#x8F83;&#x590D;&#x6742;&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;find()+save()&#x65B9;&#x6CD5;&#x6765;&#x5904;&#x7406;&#xFF0C;&#x6BD4;&#x5982;&#x627E;&#x5230;&#x5E74;&#x9F84;&#x5C0F;&#x4E8E;30&#x5C81;&#x7684;&#x6570;&#x636E;&#xFF0C;&#x540D;&#x5B57;&#x540E;&#x9762;&#x6DFB;&#x52A0;&apos;30&apos;&#x5B57;&#x7B26;</p>
+<pre><code class="lang-js">temp.find({<span class="hljs-attr">age</span>:{<span class="hljs-attr">$lt</span>:<span class="hljs-number">20</span>}},<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err,docs</span>)</span>{
+    <span class="hljs-comment">//[ { _id: 5971f93be6f98ec60e3dc86d, name: &apos;wang&apos;, age: 10 },</span>
+    <span class="hljs-comment">//{ _id: 5971f93be6f98ec60e3dc86f, name: &apos;li&apos;, age: 12 }]</span>
+    <span class="hljs-built_in">console</span>.log(docs);
+    docs.forEach(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">item,index,arr</span>)</span>{
+        item.name += <span class="hljs-string">&apos;30&apos;</span>;
+        item.save();
+    })
+    <span class="hljs-comment">//[ { _id: 5971f93be6f98ec60e3dc86d, name: &apos;wang30&apos;, age: 10 },</span>
+    <span class="hljs-comment">// { _id: 5971f93be6f98ec60e3dc86f, name: &apos;li30&apos;, age: 12 }]</span>
+    <span class="hljs-built_in">console</span>.log(docs);
+});
+</code></pre>
+<h4 id="updateone">[updateOne()]</h4>
+<p>updateOne()&#x65B9;&#x6CD5;&#x53EA;&#x80FD;&#x66F4;&#x65B0;&#x627E;&#x5230;&#x7684;&#x7B2C;&#x4E00;&#x6761;&#x6570;&#x636E;&#xFF0C;&#x5373;&#x4F7F;&#x8BBE;&#x7F6E;{multi:true}&#x4E5F;&#x65E0;&#x6CD5;&#x540C;&#x65F6;&#x66F4;&#x65B0;&#x591A;&#x4E2A;&#x6587;&#x6863;</p>
+<p>&#x5C06;&#x6570;&#x636E;&#x5E93;&#x4E2D;&#x540D;&#x5B57;&#x4E2D;&#x5E26;&#x6709;&apos;huo&apos;&#x7684;&#x6570;&#x636E;&#xFF0C;&#x5E74;&#x9F84;&#x53D8;&#x4E3A;60&#x5C81;</p>
+<pre><code class="lang-js">temp.updateOne({<span class="hljs-attr">name</span>:<span class="hljs-regexp">/huo/</span>},{<span class="hljs-attr">age</span>:<span class="hljs-number">60</span>},<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err,raw</span>)</span>{
+    <span class="hljs-comment">//{ n: 1, nModified: 1, ok: 1 }</span>
+    <span class="hljs-built_in">console</span>.log(raw);
+});
+</code></pre>
+<p><img src="../../assets/gitbook/moogose_10.png" alt="moogose_9"></p>
+<h4 id="findone--save">[findOne() + save()]</h4>
+<p>&#x5982;&#x679C;&#x9700;&#x8981;&#x66F4;&#x65B0;&#x7684;&#x64CD;&#x4F5C;&#x6BD4;&#x8F83;&#x590D;&#x6742;&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;findOne()+save()&#x65B9;&#x6CD5;&#x6765;&#x5904;&#x7406;&#xFF0C;&#x6BD4;&#x5982;&#x627E;&#x5230;&#x540D;&#x5B57;&#x4E3A;&apos;huochai&apos;&#x7684;&#x6570;&#x636E;&#xFF0C;&#x5E74;&#x9F84;&#x52A0;100&#x5C81;</p>
+<pre><code class="lang-js">temp.findOne({<span class="hljs-attr">name</span>:<span class="hljs-string">&apos;huochai&apos;</span>},<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err,doc</span>)</span>{
+    <span class="hljs-comment">//{ _id: 5971f93be6f98ec60e3dc86c, name: &apos;huochai&apos;, age: 10 }</span>
+    <span class="hljs-built_in">console</span>.log(doc);
+    doc.age += <span class="hljs-number">100</span>;
+    doc.save();
+    <span class="hljs-comment">//{ _id: 5971f93be6f98ec60e3dc86c, name: &apos;huochai&apos;, age: 110 }</span>
+    <span class="hljs-built_in">console</span>.log(doc);
+});
+</code></pre>
+<h4 id="findoneandupdate">[findOneAndUpdate()]</h4>
+<p>fineOneAndUpdate()&#x65B9;&#x6CD5;&#x7684;&#x7B2C;&#x56DB;&#x4E2A;&#x53C2;&#x6570;&#x56DE;&#x8C03;&#x51FD;&#x6570;&#x7684;&#x5F62;&#x5F0F;&#x5982;&#x4E0B;function(err,doc){}</p>
+<pre><code class="lang-js">Model.findOneAndUpdate([conditions], [update], [options], [callback])
+</code></pre>
+<h4 id="findbyidandupdate">[findByIdAndUpdate()]</h4>
+<p>fineByIdAndUpdate()&#x65B9;&#x6CD5;&#x7684;&#x7B2C;&#x56DB;&#x4E2A;&#x53C2;&#x6570;&#x56DE;&#x8C03;&#x51FD;&#x6570;&#x7684;&#x5F62;&#x5F0F;&#x5982;&#x4E0B;function(err,doc){}</p>
+<pre><code class="lang-js">Model.findOneAndUpdate([conditions], [update], [options], [callback])
+</code></pre>
 
                                 
                                 </section>
@@ -840,7 +972,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"7.8 Mongoose 文档更新","level":"1.8.8","depth":2,"next":{"title":"7.9 Mongoose 文档删除","level":"1.8.9","depth":2,"path":"note/mongodb/delect.md","ref":"note/mongodb/delect.md","articles":[]},"previous":{"title":"7.7 Mongoose 文档查询","level":"1.8.7","depth":2,"path":"note/mongodb/query.md","ref":"note/mongodb/query.md","articles":[]},"dir":"ltr"},"config":{"plugins":["yahei","katex","-search","-sharing","highlight","-fontsettings","-lunr","search-pro"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"yahei":{},"katex":{},"highlight":{},"search-pro":{},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"XuTingLuo","pdf":{"pageNumbers":true,"fontSize":13,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":10,"left":10,"top":10,"bottom":15}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Sample GitBook","language":"zh-hans","gitbook":"*","description":"This is a sample book created by gitbook","extension":null},"file":{"path":"note/mongodb/updata.md","mtime":"2018-08-31T08:33:27.652Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-08-31T08:34:32.437Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"7.8 Mongoose 文档更新","level":"1.8.8","depth":2,"next":{"title":"7.9 Mongoose 文档删除","level":"1.8.9","depth":2,"path":"note/mongodb/delect.md","ref":"note/mongodb/delect.md","articles":[]},"previous":{"title":"7.7 Mongoose 文档查询","level":"1.8.7","depth":2,"path":"note/mongodb/query.md","ref":"note/mongodb/query.md","articles":[]},"dir":"ltr"},"config":{"plugins":["yahei","katex","-search","-sharing","highlight","-fontsettings","-lunr","search-pro"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"yahei":{},"katex":{},"highlight":{},"search-pro":{},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"XuTingLuo","pdf":{"pageNumbers":true,"fontSize":13,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":10,"left":10,"top":10,"bottom":15}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Sample GitBook","language":"zh-hans","gitbook":"*","description":"This is a sample book created by gitbook","extension":null},"file":{"path":"note/mongodb/updata.md","mtime":"2018-07-25T01:58:09.851Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-08-31T09:00:04.966Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>

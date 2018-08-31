@@ -1,0 +1,863 @@
+
+<!DOCTYPE HTML>
+<html lang="zh-hans" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>7.5 Mongoose 自定义方法 · Sample GitBook</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        <meta name="author" content="XuTingLuo">
+        
+        
+    
+    <link rel="stylesheet" href="../../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-yahei/yahei.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-katex/katex.min.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-search-pro/search.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="create.html" />
+    
+    
+    <link rel="prev" href="mongoose.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="输入并搜索" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../../">
+            
+                <a href="../../">
+            
+                    
+                    koa2 进阶学习笔记
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" >
+            
+                <span>
+            
+                    
+                    1 koa2开始
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1" data-path="../start/quick.html">
+            
+                <a href="../start/quick.html">
+            
+                    
+                    1.1 快速开始
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2" data-path="../start/async.html">
+            
+                <a href="../start/async.html">
+            
+                    
+                    1.2 async/await使用
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3" data-path="../start/info.html">
+            
+                <a href="../start/info.html">
+            
+                    
+                    1.3 koa2简析结构
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4" data-path="../start/middleware.html">
+            
+                <a href="../start/middleware.html">
+            
+                    
+                    1.4 koa中间件开发与使用
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" >
+            
+                <span>
+            
+                    
+                    2 路由
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1" data-path="../route/simple.html">
+            
+                <a href="../route/simple.html">
+            
+                    
+                    2.1 原生koa2实现路由
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2" data-path="../route/koa-router.html">
+            
+                <a href="../route/koa-router.html">
+            
+                    
+                    2.2 koa-router中间件
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" >
+            
+                <span>
+            
+                    
+                    3 请求数据获取
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.1" data-path="../request/get.html">
+            
+                <a href="../request/get.html">
+            
+                    
+                    3.1 GET请求数据获取
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.2" data-path="../request/post.html">
+            
+                <a href="../request/post.html">
+            
+                    
+                    3.2 POST请求数据获取
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.3" data-path="../request/post-use-middleware.html">
+            
+                <a href="../request/post-use-middleware.html">
+            
+                    
+                    3.3 koa-bodyparser中间件
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" >
+            
+                <span>
+            
+                    
+                    4 静态资源加载
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.1" data-path="../static/server.html">
+            
+                <a href="../static/server.html">
+            
+                    
+                    4.1 原生koa2实现静态资源服务器
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.2" data-path="../static/middleware.html">
+            
+                <a href="../static/middleware.html">
+            
+                    
+                    4.2 koa-static中间件
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6" >
+            
+                <span>
+            
+                    
+                    5 cookie
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.1" data-path="../cookie/info.html">
+            
+                <a href="../cookie/info.html">
+            
+                    
+                    5.1 koa2使用cookie
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7" >
+            
+                <span>
+            
+                    
+                    6 文件上传
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.7.1" data-path="../upload/busboy.html">
+            
+                <a href="../upload/busboy.html">
+            
+                    
+                    6.1 busboy模块
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.2" data-path="../upload/simple.html">
+            
+                <a href="../upload/simple.html">
+            
+                    
+                    6.2 上传文件简单实现
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.3" data-path="../upload/pic-async.html">
+            
+                <a href="../upload/pic-async.html">
+            
+                    
+                    6.3 异步上传图片实现
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8" >
+            
+                <span>
+            
+                    
+                    7 数据库mysql 与 mongodb
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.8.1" data-path="../mysql/info.html">
+            
+                <a href="../mysql/info.html">
+            
+                    
+                    7.1 mysql模块
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8.2" data-path="../mysql/async.html">
+            
+                <a href="../mysql/async.html">
+            
+                    
+                    7.2 async/await封装使用mysql
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8.3" data-path="info.html">
+            
+                <a href="info.html">
+            
+                    
+                    7.3 连接Mongodb
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8.4" data-path="mongoose.html">
+            
+                <a href="mongoose.html">
+            
+                    
+                    7.4 Mongoose 模块简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.8.5" data-path="define.html">
+            
+                <a href="define.html">
+            
+                    
+                    7.5 Mongoose 自定义方法
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8.6" data-path="create.html">
+            
+                <a href="create.html">
+            
+                    
+                    7.6 Mongoose 文档新增
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8.7" data-path="query.html">
+            
+                <a href="query.html">
+            
+                    
+                    7.7 Mongoose 文档查询
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8.8" data-path="updata.html">
+            
+                <a href="updata.html">
+            
+                    
+                    7.8 Mongoose 文档更新
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8.9" data-path="delect.html">
+            
+                <a href="delect.html">
+            
+                    
+                    7.9 Mongoose 文档删除
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8.10" data-path="filter.html">
+            
+                <a href="filter.html">
+            
+                    
+                    7.10 Mongoose 前后钩子及验证
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8.11" data-path="table.html">
+            
+                <a href="table.html">
+            
+                    
+                    7.11 Mongoose 联表操作及总结
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9" >
+            
+                <span>
+            
+                    
+                    8 爬虫项目实战
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.9.1" data-path="../crawl/quick.html">
+            
+                <a href="../crawl/quick.html">
+            
+                    
+                    8.1 项目简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9.2" data-path="../crawl/framework.html">
+            
+                <a href="../crawl/framework.html">
+            
+                    
+                    8.2 框架设计
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9.3" data-path="../crawl/sql.html">
+            
+                <a href="../crawl/sql.html">
+            
+                    
+                    8.3 数据库设计
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.10" >
+            
+                <span>
+            
+                    
+                    9 企业级框架 egg.js
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.10.1" data-path="../egg/info.html">
+            
+                <a href="../egg/info.html">
+            
+                    
+                    9.1 egg.js 简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.10.2" data-path="../egg/relation.html">
+            
+                <a href="../egg/relation.html">
+            
+                    
+                    9.2 egg.js 简介与 koa2 关系
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.11" >
+            
+                <span>
+            
+                    
+                    10 egg.js 实战小说阅读网
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.11.1" data-path="../reader/info.html">
+            
+                <a href="../reader/info.html">
+            
+                    
+                    10.1 项目简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.11.2" data-path="../reader/framework.html">
+            
+                <a href="../reader/framework.html">
+            
+                    
+                    10.2 框架设计
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.11.3" data-path="../reader/reader.html">
+            
+                <a href="../reader/reader.html">
+            
+                    
+                    10.3 阅读器功能
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.11.4" data-path="../reader/web.html">
+            
+                <a href="../reader/web.html">
+            
+                    
+                    10.4 主站体功能
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            本书使用 GitBook 发布
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="../.." >7.5 Mongoose 自定义方法</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="75-mongoose-&#x81EA;&#x5B9A;&#x4E49;&#x65B9;&#x6CD5;">7.5 Mongoose &#x81EA;&#x5B9A;&#x4E49;&#x65B9;&#x6CD5;</h1>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="mongoose.html" class="navigation navigation-prev " aria-label="Previous page: 7.4 Mongoose 模块简介">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="create.html" class="navigation navigation-next " aria-label="Next page: 7.6 Mongoose 文档新增">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"7.5 Mongoose 自定义方法","level":"1.8.5","depth":2,"next":{"title":"7.6 Mongoose 文档新增","level":"1.8.6","depth":2,"path":"note/mongodb/create.md","ref":"note/mongodb/create.md","articles":[]},"previous":{"title":"7.4 Mongoose 模块简介","level":"1.8.4","depth":2,"path":"note/mongodb/mongoose.md","ref":"note/mongodb/mongoose.md","articles":[]},"dir":"ltr"},"config":{"plugins":["yahei","katex","-search","-sharing","highlight","-fontsettings","-lunr","search-pro"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"yahei":{},"katex":{},"highlight":{},"search-pro":{},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"XuTingLuo","pdf":{"pageNumbers":true,"fontSize":13,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":10,"left":10,"top":10,"bottom":15}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Sample GitBook","language":"zh-hans","gitbook":"*","description":"This is a sample book created by gitbook","extension":null},"file":{"path":"note/mongodb/define.md","mtime":"2018-08-31T08:33:27.633Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-08-31T08:34:32.437Z"},"basePath":"../..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../../gitbook/gitbook.js"></script>
+    <script src="../../gitbook/theme.js"></script>
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search-pro/jquery.mark.min.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search-pro/search.js"></script>
+        
+    
+
+    </body>
+</html>
+

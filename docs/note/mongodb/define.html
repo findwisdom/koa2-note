@@ -796,7 +796,82 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="75-mongoose-&#x81EA;&#x5B9A;&#x4E49;&#x65B9;&#x6CD5;">7.5 Mongoose &#x81EA;&#x5B9A;&#x4E49;&#x65B9;&#x6CD5;</h1>
+                                <h1 id="mongoose-&#x81EA;&#x5B9A;&#x4E49;&#x65B9;&#x6CD5;">Mongoose &#x81EA;&#x5B9A;&#x4E49;&#x65B9;&#x6CD5;</h1>
+<h4 id="&#x5B9E;&#x4F8B;&#x65B9;&#x6CD5;">[&#x5B9E;&#x4F8B;&#x65B9;&#x6CD5;]</h4>
+<p>Model&#x7684;&#x5B9E;&#x4F8B;&#x662F;document&#xFF0C;&#x5185;&#x7F6E;&#x5B9E;&#x4F8B;&#x65B9;&#x6CD5;&#x6709;&#x5F88;&#x591A;&#xFF0C;&#x5982; save&#xFF0C;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;Schema&#x5BF9;&#x8C61;&#x7684;methods&#x5C5E;&#x6027;&#x7ED9;&#x5B9E;&#x4F8B;&#x81EA;&#x5B9A;&#x4E49;&#x6269;&#x5C55;&#x65B9;&#x6CD5;</p>
+<pre><code class="lang-js">
+<span class="hljs-keyword">var</span> mongoose = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;mongoose&apos;</span>);
+mongoose.connect(<span class="hljs-string">&quot;mongodb://u1:123456@localhost/db1&quot;</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err</span>) </span>{
+    <span class="hljs-keyword">if</span>(!err){
+        <span class="hljs-keyword">var</span> schema = <span class="hljs-keyword">new</span> mongoose.Schema({ <span class="hljs-attr">num</span>:<span class="hljs-built_in">Number</span>, <span class="hljs-attr">name</span>: <span class="hljs-built_in">String</span>, <span class="hljs-attr">size</span>: <span class="hljs-built_in">String</span> });
+        schema.methods.findSimilarSizes = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">cb</span>)</span>{
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.model(<span class="hljs-string">&apos;MyModel&apos;</span>).find({<span class="hljs-attr">size</span>:<span class="hljs-keyword">this</span>.size},cb);
+        }
+        <span class="hljs-keyword">var</span> MyModel = mongoose.model(<span class="hljs-string">&apos;MyModel&apos;</span>, schema);
+        <span class="hljs-keyword">var</span> doc1 = <span class="hljs-keyword">new</span> MyModel({ <span class="hljs-attr">name</span>:<span class="hljs-string">&apos;doc1&apos;</span>, <span class="hljs-attr">size</span>: <span class="hljs-string">&apos;small&apos;</span> });
+        <span class="hljs-keyword">var</span> doc2 = <span class="hljs-keyword">new</span> MyModel({ <span class="hljs-attr">name</span>:<span class="hljs-string">&apos;doc2&apos;</span>, <span class="hljs-attr">size</span>: <span class="hljs-string">&apos;small&apos;</span> });
+        <span class="hljs-keyword">var</span> doc3 = <span class="hljs-keyword">new</span> MyModel({ <span class="hljs-attr">name</span>:<span class="hljs-string">&apos;doc3&apos;</span>, <span class="hljs-attr">size</span>: <span class="hljs-string">&apos;big&apos;</span> });
+        doc1.save();
+        doc2.save();
+        doc3.save();
+        setTimeout(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+            doc1.findSimilarSizes(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err,docs</span>)</span>{
+                docs.forEach(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">item,index,arr</span>)</span>{
+                    <span class="hljs-comment">//doc1</span>
+                    <span class="hljs-comment">//doc2</span>
+                     <span class="hljs-built_in">console</span>.log(item.name)
+                })
+            })
+        },<span class="hljs-number">0</span>)
+    }
+});
+</code></pre>
+<h4 id="&#x9759;&#x6001;&#x65B9;&#x6CD5;">[&#x9759;&#x6001;&#x65B9;&#x6CD5;]</h4>
+<p>&#x901A;&#x8FC7;Schema&#x5BF9;&#x8C61;&#x7684;statics&#x5C5E;&#x6027;&#x7ED9; Model &#x6DFB;&#x52A0;&#x9759;&#x6001;&#x65B9;&#x6CD5;</p>
+<pre><code class="lang-js">
+<span class="hljs-keyword">var</span> mongoose = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;mongoose&apos;</span>);
+mongoose.connect(<span class="hljs-string">&quot;mongodb://u1:123456@localhost/db1&quot;</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err</span>) </span>{
+    <span class="hljs-keyword">if</span>(!err){
+        <span class="hljs-keyword">var</span> schema = <span class="hljs-keyword">new</span> mongoose.Schema({ <span class="hljs-attr">num</span>:<span class="hljs-built_in">Number</span>, <span class="hljs-attr">name</span>: <span class="hljs-built_in">String</span>, <span class="hljs-attr">size</span>: <span class="hljs-built_in">String</span> });
+        schema.statics.findByName = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">name,cb</span>)</span>{
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.find({<span class="hljs-attr">name</span>: <span class="hljs-keyword">new</span> <span class="hljs-built_in">RegExp</span>(name,<span class="hljs-string">&apos;i&apos;</span>)},cb);
+        }
+        <span class="hljs-keyword">var</span> MyModel = mongoose.model(<span class="hljs-string">&apos;MyModel&apos;</span>, schema);
+        <span class="hljs-keyword">var</span> doc1 = <span class="hljs-keyword">new</span> MyModel({ <span class="hljs-attr">name</span>:<span class="hljs-string">&apos;doc1&apos;</span>, <span class="hljs-attr">size</span>: <span class="hljs-string">&apos;small&apos;</span> });
+        <span class="hljs-keyword">var</span> doc2 = <span class="hljs-keyword">new</span> MyModel({ <span class="hljs-attr">name</span>:<span class="hljs-string">&apos;doc2&apos;</span>, <span class="hljs-attr">size</span>: <span class="hljs-string">&apos;small&apos;</span> });
+        <span class="hljs-keyword">var</span> doc3 = <span class="hljs-keyword">new</span> MyModel({ <span class="hljs-attr">name</span>:<span class="hljs-string">&apos;doc3&apos;</span>, <span class="hljs-attr">size</span>: <span class="hljs-string">&apos;big&apos;</span> });
+        doc1.save();
+        doc2.save();
+        doc3.save();
+        setTimeout(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+            MyModel.findByName(<span class="hljs-string">&apos;doc1&apos;</span>,<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err,docs</span>)</span>{
+                <span class="hljs-comment">//[ { _id: 5971e68f4f4216605880dca2,name: &apos;doc1&apos;,size: &apos;small&apos;,__v: 0 } ]</span>
+                <span class="hljs-built_in">console</span>.log(docs);
+            })
+        },<span class="hljs-number">0</span>)
+    }
+});
+</code></pre>
+<p>&#x7531;&#x4E0A;&#x6240;&#x793A;&#xFF0C;&#x5B9E;&#x4F8B;&#x65B9;&#x6CD5;&#x548C;&#x9759;&#x6001;&#x65B9;&#x6CD5;&#x7684;&#x533A;&#x522B;&#x5728;&#x4E8E;&#xFF0C;&#x9759;&#x6001;&#x65B9;&#x6CD5;&#x662F;&#x901A;&#x8FC7;Schema&#x5BF9;&#x8C61;&#x7684;statics&#x5C5E;&#x6027;&#x7ED9;model&#x6DFB;&#x52A0;&#x65B9;&#x6CD5;&#xFF0C;&#x5B9E;&#x4F8B;&#x65B9;&#x6CD5;&#x662F;&#x901A;&#x8FC7;Schema&#x5BF9;&#x8C61;&#x7684;methods&#x662F;&#x7ED9;document&#x6DFB;&#x52A0;&#x65B9;&#x6CD5;</p>
+<h4 id="&#x67E5;&#x8BE2;&#x65B9;&#x6CD5;">[&#x67E5;&#x8BE2;&#x65B9;&#x6CD5;]</h4>
+<p>&#x901A;&#x8FC7;schema&#x5BF9;&#x8C61;&#x7684;query&#x5C5E;&#x6027;&#xFF0C;&#x7ED9;model&#x6DFB;&#x52A0;&#x67E5;&#x8BE2;&#x65B9;&#x6CD5;</p>
+<pre><code class="lang-js"><span class="hljs-keyword">var</span> mongoose = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;mongoose&apos;</span>);
+mongoose.connect(<span class="hljs-string">&quot;mongodb://u1:123456@localhost/db1&quot;</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err</span>) </span>{
+    <span class="hljs-keyword">if</span>(!err){
+        <span class="hljs-keyword">var</span> schema = <span class="hljs-keyword">new</span> mongoose.Schema({ <span class="hljs-attr">age</span>:<span class="hljs-built_in">Number</span>, <span class="hljs-attr">name</span>: <span class="hljs-built_in">String</span>});
+        schema.query.byName = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">name</span>)</span>{
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.find({<span class="hljs-attr">name</span>: <span class="hljs-keyword">new</span> <span class="hljs-built_in">RegExp</span>(name)});
+        }
+        <span class="hljs-keyword">var</span> temp = mongoose.model(<span class="hljs-string">&apos;temp&apos;</span>, schema);
+        temp.find().byName(<span class="hljs-string">&apos;huo&apos;</span>).exec(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err,docs</span>)</span>{
+            <span class="hljs-comment">//[ { _id: 5971f93be6f98ec60e3dc86c, name: &apos;huochai&apos;, age: 27 },</span>
+            <span class="hljs-comment">// { _id: 5971f93be6f98ec60e3dc86e, name: &apos;huo&apos;, age: 30 } ]</span>
+            <span class="hljs-built_in">console</span>.log(docs);
+        })
+
+    }
+});
+</code></pre>
 
                                 
                                 </section>
@@ -840,7 +915,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"7.5 Mongoose 自定义方法","level":"1.8.5","depth":2,"next":{"title":"7.6 Mongoose 文档新增","level":"1.8.6","depth":2,"path":"note/mongodb/create.md","ref":"note/mongodb/create.md","articles":[]},"previous":{"title":"7.4 Mongoose 模块简介","level":"1.8.4","depth":2,"path":"note/mongodb/mongoose.md","ref":"note/mongodb/mongoose.md","articles":[]},"dir":"ltr"},"config":{"plugins":["yahei","katex","-search","-sharing","highlight","-fontsettings","-lunr","search-pro"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"yahei":{},"katex":{},"highlight":{},"search-pro":{},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"XuTingLuo","pdf":{"pageNumbers":true,"fontSize":13,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":10,"left":10,"top":10,"bottom":15}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Sample GitBook","language":"zh-hans","gitbook":"*","description":"This is a sample book created by gitbook","extension":null},"file":{"path":"note/mongodb/define.md","mtime":"2018-08-31T08:33:27.633Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-08-31T08:34:32.437Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"7.5 Mongoose 自定义方法","level":"1.8.5","depth":2,"next":{"title":"7.6 Mongoose 文档新增","level":"1.8.6","depth":2,"path":"note/mongodb/create.md","ref":"note/mongodb/create.md","articles":[]},"previous":{"title":"7.4 Mongoose 模块简介","level":"1.8.4","depth":2,"path":"note/mongodb/mongoose.md","ref":"note/mongodb/mongoose.md","articles":[]},"dir":"ltr"},"config":{"plugins":["yahei","katex","-search","-sharing","highlight","-fontsettings","-lunr","search-pro"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"yahei":{},"katex":{},"highlight":{},"search-pro":{},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"XuTingLuo","pdf":{"pageNumbers":true,"fontSize":13,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":10,"left":10,"top":10,"bottom":15}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Sample GitBook","language":"zh-hans","gitbook":"*","description":"This is a sample book created by gitbook","extension":null},"file":{"path":"note/mongodb/define.md","mtime":"2018-07-25T01:58:09.836Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-08-31T09:00:04.966Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>

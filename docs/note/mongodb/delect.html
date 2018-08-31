@@ -796,7 +796,87 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="79-mongoose-&#x6587;&#x6863;&#x5220;&#x9664;">7.9 Mongoose &#x6587;&#x6863;&#x5220;&#x9664;</h1>
+                                <h1 id="mongoose-&#x6587;&#x6863;&#x5220;&#x9664;">Mongoose &#x6587;&#x6863;&#x5220;&#x9664;</h1>
+<p>&#x6709;&#x4E09;&#x79CD;&#x65B9;&#x6CD5;&#x7528;&#x4E8E;&#x6587;&#x6863;&#x5220;&#x9664;</p>
+<pre><code class="lang-js">remove()
+findOneAndRemove()
+findByIdAndRemove()
+</code></pre>
+<h4 id="remove">[remove()]</h4>
+<p>remove&#x6709;&#x4E24;&#x79CD;&#x5F62;&#x5F0F;&#xFF0C;&#x4E00;&#x79CD;&#x662F;&#x6587;&#x6863;&#x7684;remove()&#x65B9;&#x6CD5;&#xFF0C;&#x4E00;&#x79CD;&#x662F;Model&#x7684;remove()&#x65B9;&#x6CD5;</p>
+<p>&#x4E0B;&#x9762;&#x4ECB;&#x7ECD;Model&#x7684;remove()&#x65B9;&#x6CD5;&#xFF0C;&#x8BE5;&#x65B9;&#x6CD5;&#x7684;&#x7B2C;&#x4E00;&#x4E2A;&#x53C2;&#x6570;conditions&#x4E3A;&#x67E5;&#x8BE2;&#x6761;&#x4EF6;&#xFF0C;&#x7B2C;&#x4E8C;&#x4E2A;&#x53C2;&#x6570;&#x56DE;&#x8C03;&#x51FD;&#x6570;&#x7684;&#x5F62;&#x5F0F;&#x5982;&#x4E0B;function(err){}</p>
+<pre><code class="lang-js">model.remove(conditions, [callback])
+</code></pre>
+<p><img src="../../assets/gitbook/moogose_11.png" alt="moogose_11"></p>
+<p>&#x5220;&#x9664;&#x6570;&#x636E;&#x5E93;&#x4E2D;&#x540D;&#x79F0;&#x5305;&#x62EC;&apos;30&apos;&#x7684;&#x6570;&#x636E;</p>
+<pre><code class="lang-js">temp.remove({<span class="hljs-attr">name</span>:<span class="hljs-regexp">/30/</span>},<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err</span>)</span>{})
+</code></pre>
+<p><img src="../../assets/gitbook/moogose_12.png" alt="moogose_12"></p>
+<ul>
+<li>[&#x6CE8;&#x610F;]remove()&#x65B9;&#x6CD5;&#x4E2D;&#x7684;&#x56DE;&#x8C03;&#x51FD;&#x6570;&#x4E0D;&#x80FD;&#x7701;&#x7565;&#xFF0C;&#x5426;&#x5219;&#x6570;&#x636E;&#x4E0D;&#x4F1A;&#x88AB;&#x5220;&#x9664;&#x3002;&#x5F53;&#x7136;&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;exec()&#x65B9;&#x6CD5;&#x6765;&#x7B80;&#x5199;&#x4EE3;&#x7801;</li>
+</ul>
+<pre><code class="lang-js">temp.remove({<span class="hljs-attr">name</span>:<span class="hljs-regexp">/30/</span>}).exec()
+</code></pre>
+<p>&#x4E0B;&#x9762;&#x4ECB;&#x7ECD;&#x6587;&#x6863;&#x7684;remove()&#x65B9;&#x6CD5;&#xFF0C;&#x8BE5;&#x65B9;&#x6CD5;&#x7684;&#x53C2;&#x6570;&#x56DE;&#x8C03;&#x51FD;&#x6570;&#x7684;&#x5F62;&#x5F0F;&#x5982;&#x4E0B;function(err,doc){}</p>
+<pre><code class="lang-js"><span class="hljs-built_in">document</span>.remove([callback])
+</code></pre>
+<p>&#x5220;&#x9664;&#x6570;&#x636E;&#x5E93;&#x4E2D;&#x540D;&#x79F0;&#x5305;&#x542B;&apos;huo&apos;&#x7684;&#x6570;&#x636E;</p>
+<ul>
+<li>[&#x6CE8;&#x610F;]&#x6587;&#x6863;&#x7684;remove()&#x65B9;&#x6CD5;&#x7684;&#x56DE;&#x8C03;&#x51FD;&#x6570;&#x53C2;&#x6570;&#x53EF;&#x4EE5;&#x7701;&#x7565;</li>
+</ul>
+<pre><code class="lang-js">temp.find({<span class="hljs-attr">name</span>:<span class="hljs-regexp">/huo/</span>},<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err,doc</span>)</span>{
+    doc.forEach(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">item,index,arr</span>)</span>{
+        item.remove(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err,doc</span>)</span>{
+            <span class="hljs-comment">//{ _id: 5971f93be6f98ec60e3dc86c, name: &apos;huochai&apos;, age: 30 }</span>
+            <span class="hljs-comment">//{ _id: 5971f93be6f98ec60e3dc86e, name: &apos;huo&apos;, age: 60 }</span>
+            <span class="hljs-built_in">console</span>.log(doc);
+        })
+    })
+})
+</code></pre>
+<h4 id="findoneandremove">[findOneAndRemove()]</h4>
+<p>model&#x7684;remove()&#x4F1A;&#x5220;&#x9664;&#x7B26;&#x5408;&#x6761;&#x4EF6;&#x7684;&#x6240;&#x6709;&#x6570;&#x636E;&#xFF0C;&#x5982;&#x679C;&#x53EA;&#x5220;&#x9664;&#x7B26;&#x5408;&#x6761;&#x4EF6;&#x7684;&#x7B2C;&#x4E00;&#x6761;&#x6570;&#x636E;&#xFF0C;&#x5219;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;model&#x7684;findOneAndRemove()&#x65B9;&#x6CD5;</p>
+<pre><code class="lang-js">Model.findOneAndRemove(conditions, [options], [callback])
+</code></pre>
+<p>&#x96C6;&#x5408;temps&#x73B0;&#x6709;&#x6570;&#x636E;&#x5982;&#x4E0B;</p>
+<p><img src="../../assets/gitbook/moogose_13.png" alt="moogose_13"></p>
+<p>&#x73B0;&#x5728;&#x5220;&#x9664;&#x7B2C;&#x4E00;&#x4E2A;&#x5E74;&#x9F84;&#x5C0F;&#x4E8E;20&#x7684;&#x6570;&#x636E;</p>
+<pre><code class="lang-js">temp.findOneAndRemove({<span class="hljs-attr">age</span>:{<span class="hljs-attr">$lt</span>:<span class="hljs-number">20</span>}},<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err,doc</span>)</span>{
+    <span class="hljs-comment">//{ _id: 5972d3f3e6f98ec60e3dc873, name: &apos;wang&apos;, age: 18 }</span>
+    <span class="hljs-built_in">console</span>.log(doc);
+})
+</code></pre>
+<p><img src="../../assets/gitbook/moogose_14.png" alt="moogose_14"></p>
+<p>&#x4E0E;model&#x7684;remove()&#x65B9;&#x6CD5;&#x76F8;&#x540C;&#xFF0C;&#x56DE;&#x8C03;&#x51FD;&#x6570;&#x4E0D;&#x80FD;&#x7701;&#x7565;&#xFF0C;&#x5426;&#x5219;&#x6570;&#x636E;&#x4E0D;&#x4F1A;&#x88AB;&#x5220;&#x9664;&#x3002;&#x5F53;&#x7136;&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;exec()&#x65B9;&#x6CD5;&#x6765;&#x7B80;&#x5199;&#x4EE3;&#x7801;</p>
+<pre><code class="lang-js">temp.findOneAndRemove({<span class="hljs-attr">age</span>:{<span class="hljs-attr">$lt</span>:<span class="hljs-number">20</span>}}).exec()
+</code></pre>
+<h4 id="findbyidandremove">[findByIdAndRemove()]</h4>
+<pre><code class="lang-js">Model.findByIdAndRemove(id, [options], [callback])
+</code></pre>
+<p><img src="../../assets/gitbook/moogose_15.png" alt="moogose_15"></p>
+<p>&#x5220;&#x9664;&#x7B2C;0&#x4E2A;&#x5143;&#x7D20;</p>
+<pre><code class="lang-js"><span class="hljs-keyword">var</span> aIDArr = [];
+temp.find(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err,docs</span>)</span>{
+    docs.forEach(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">item,index,arr</span>)</span>{
+        aIDArr.push(item._id);
+    })
+    temp.findByIdAndRemove(aIDArr[<span class="hljs-number">0</span>],<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err,doc</span>)</span>{
+        <span class="hljs-comment">//{ _id: 5972d754e6f98ec60e3dc882, name: &apos;huochai&apos;, age: 27 }</span>
+        <span class="hljs-built_in">console</span>.log(doc);
+    })
+})
+</code></pre>
+<p><img src="../../assets/gitbook/moogose_16.png" alt="moogose_16"></p>
+<p>&#x7C7B;&#x4F3C;&#x7684;&#xFF0C;&#x8BE5;&#x65B9;&#x6CD5;&#x4E5F;&#x4E0D;&#x80FD;&#x7701;&#x7565;&#x56DE;&#x8C03;&#x51FD;&#x6570;&#xFF0C;&#x5426;&#x5219;&#x6570;&#x636E;&#x4E0D;&#x4F1A;&#x88AB;&#x5220;&#x9664;&#x3002;&#x5F53;&#x7136;&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;exec()&#x65B9;&#x6CD5;&#x6765;&#x7B80;&#x5199;&#x4EE3;&#x7801;</p>
+<pre><code class="lang-js"><span class="hljs-keyword">var</span> aIDArr = [];
+temp.find(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err,docs</span>)</span>{
+    docs.forEach(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">item,index,arr</span>)</span>{
+        aIDArr.push(item._id);
+    })
+    temp.findByIdAndRemove(aIDArr[<span class="hljs-number">0</span>]).exec()
+})
+</code></pre>
+<p><img src="../../assets/gitbook/moogose_17.png" alt="moogose_17"></p>
 
                                 
                                 </section>
@@ -840,7 +920,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"7.9 Mongoose 文档删除","level":"1.8.9","depth":2,"next":{"title":"7.10 Mongoose 前后钩子及验证","level":"1.8.10","depth":2,"path":"note/mongodb/filter.md","ref":"note/mongodb/filter.md","articles":[]},"previous":{"title":"7.8 Mongoose 文档更新","level":"1.8.8","depth":2,"path":"note/mongodb/updata.md","ref":"note/mongodb/updata.md","articles":[]},"dir":"ltr"},"config":{"plugins":["yahei","katex","-search","-sharing","highlight","-fontsettings","-lunr","search-pro"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"yahei":{},"katex":{},"highlight":{},"search-pro":{},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"XuTingLuo","pdf":{"pageNumbers":true,"fontSize":13,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":10,"left":10,"top":10,"bottom":15}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Sample GitBook","language":"zh-hans","gitbook":"*","description":"This is a sample book created by gitbook","extension":null},"file":{"path":"note/mongodb/delect.md","mtime":"2018-08-31T08:33:27.635Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-08-31T08:34:32.437Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"7.9 Mongoose 文档删除","level":"1.8.9","depth":2,"next":{"title":"7.10 Mongoose 前后钩子及验证","level":"1.8.10","depth":2,"path":"note/mongodb/filter.md","ref":"note/mongodb/filter.md","articles":[]},"previous":{"title":"7.8 Mongoose 文档更新","level":"1.8.8","depth":2,"path":"note/mongodb/updata.md","ref":"note/mongodb/updata.md","articles":[]},"dir":"ltr"},"config":{"plugins":["yahei","katex","-search","-sharing","highlight","-fontsettings","-lunr","search-pro"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"yahei":{},"katex":{},"highlight":{},"search-pro":{},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"XuTingLuo","pdf":{"pageNumbers":true,"fontSize":13,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":10,"left":10,"top":10,"bottom":15}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Sample GitBook","language":"zh-hans","gitbook":"*","description":"This is a sample book created by gitbook","extension":null},"file":{"path":"note/mongodb/delect.md","mtime":"2018-07-25T01:58:09.838Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-08-31T09:00:04.966Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>

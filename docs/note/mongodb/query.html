@@ -796,7 +796,214 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="77-mongoose-&#x6587;&#x6863;&#x67E5;&#x8BE2;">7.7 Mongoose &#x6587;&#x6863;&#x67E5;&#x8BE2;</h1>
+                                <h1 id="mongoose-&#x6587;&#x6863;&#x67E5;&#x8BE2;">Mongoose &#x6587;&#x6863;&#x67E5;&#x8BE2;</h1>
+<p>&#x4F7F;&#x7528;Mongoose&#x6765;&#x67E5;&#x627E;&#x6587;&#x6863;&#x5F88;&#x5BB9;&#x6613;&#xFF0C;&#x6709;&#x4EE5;&#x4E0B;3&#x79CD;&#x65B9;&#x6CD5;&#x53EF;&#x4F9B;&#x9009;&#x62E9;</p>
+<pre><code class="lang-js">find()
+findById()
+findOne()
+</code></pre>
+<h4 id="find">[find()]</h4>
+<p>&#x7B2C;&#x4E00;&#x4E2A;&#x53C2;&#x6570;&#x8868;&#x793A;&#x67E5;&#x8BE2;&#x6761;&#x4EF6;&#xFF0C;&#x7B2C;&#x4E8C;&#x4E2A;&#x53C2;&#x6570;&#x7528;&#x4E8E;&#x63A7;&#x5236;&#x8FD4;&#x56DE;&#x7684;&#x5B57;&#x6BB5;&#xFF0C;&#x7B2C;&#x4E09;&#x4E2A;&#x53C2;&#x6570;&#x7528;&#x4E8E;&#x914D;&#x7F6E;&#x67E5;&#x8BE2;&#x53C2;&#x6570;&#xFF0C;&#x7B2C;&#x56DB;&#x4E2A;&#x53C2;&#x6570;&#x662F;&#x56DE;&#x8C03;&#x51FD;&#x6570;&#xFF0C;&#x56DE;&#x8C03;&#x51FD;&#x6570;&#x7684;&#x5F62;&#x5F0F;&#x4E3A;function(err,docs){}</p>
+<pre><code class="lang-js">Model.find(conditions, [projection], [options], [callback])
+</code></pre>
+<p>&#x5728;&#x6570;&#x636E;&#x5E93;db1&#x7684;&#x96C6;&#x5408;temps&#x4E2D;&#x5B58;&#x5728;&#x5982;&#x4E0B;&#x6570;&#x636E;</p>
+<p><img src="../../assets/gitbook/moogose_2.png" alt="moogose_0"></p>
+<p>&#x73B0;&#x5728;&#xFF0C;&#x4F7F;&#x7528;find()&#x65B9;&#x6CD5;&#x627E;&#x51FA;&#x6240;&#x6709;&#x6570;&#x636E;</p>
+<pre><code class="lang-js"><span class="hljs-keyword">var</span> mongoose = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;mongoose&apos;</span>);
+mongoose.connect(<span class="hljs-string">&quot;mongodb://u1:123456@localhost/db1&quot;</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err</span>) </span>{
+    <span class="hljs-keyword">if</span>(!err){
+        <span class="hljs-keyword">var</span> schema = <span class="hljs-keyword">new</span> mongoose.Schema({ <span class="hljs-attr">age</span>:<span class="hljs-built_in">Number</span>, <span class="hljs-attr">name</span>: <span class="hljs-built_in">String</span>});
+        <span class="hljs-keyword">var</span> temp = mongoose.model(<span class="hljs-string">&apos;temp&apos;</span>, schema);
+        temp.find(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err,docs</span>)</span>{
+            <span class="hljs-comment">//[ { _id: 5971f93be6f98ec60e3dc86c, name: &apos;huochai&apos;, age: 27 },</span>
+            <span class="hljs-comment">//{ _id: 5971f93be6f98ec60e3dc86d, name: &apos;wang&apos;, age: 18 },</span>
+            <span class="hljs-comment">//{ _id: 5971f93be6f98ec60e3dc86e, name: &apos;huo&apos;, age: 30 },</span>
+            <span class="hljs-comment">//{ _id: 5971f93be6f98ec60e3dc86f, name: &apos;li&apos;, age: 12 } ]</span>
+            <span class="hljs-built_in">console</span>.log(docs);
+        })
+    }
+});
+</code></pre>
+<p>&#x627E;&#x51FA;&#x5E74;&#x9F84;&#x5927;&#x4E8E;18&#x7684;&#x6570;&#x636E;</p>
+<pre><code class="lang-js">temp.find({<span class="hljs-attr">age</span>:{<span class="hljs-attr">$gte</span>:<span class="hljs-number">18</span>}},<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err,docs</span>)</span>{
+    <span class="hljs-comment">//[ { _id: 5971f93be6f98ec60e3dc86c, name: &apos;huochai&apos;, age: 27 },</span>
+    <span class="hljs-comment">//{ _id: 5971f93be6f98ec60e3dc86d, name: &apos;wang&apos;, age: 18 },</span>
+    <span class="hljs-comment">//{ _id: 5971f93be6f98ec60e3dc86e, name: &apos;huo&apos;, age: 30 }]</span>
+    <span class="hljs-built_in">console</span>.log(docs);
+})
+</code></pre>
+<p>&#x627E;&#x51FA;&#x5E74;&#x9F84;&#x5927;&#x4E8E;18&#x4E14;&#x540D;&#x5B57;&#x91CC;&#x5B58;&#x5728;&apos;huo&apos;&#x7684;&#x6570;&#x636E;</p>
+<pre><code class="lang-js">temp.find({<span class="hljs-attr">name</span>:<span class="hljs-regexp">/huo/</span>,<span class="hljs-attr">age</span>:{<span class="hljs-attr">$gte</span>:<span class="hljs-number">18</span>}},<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err,docs</span>)</span>{
+    <span class="hljs-comment">//[ { _id: 5971f93be6f98ec60e3dc86c, name: &apos;huochai&apos;, age: 27 },</span>
+    <span class="hljs-comment">//{ _id: 5971f93be6f98ec60e3dc86e, name: &apos;huo&apos;, age: 30 }]</span>
+    <span class="hljs-built_in">console</span>.log(docs);
+})
+</code></pre>
+<p>&#x627E;&#x51FA;&#x540D;&#x5B57;&#x91CC;&#x5B58;&#x5728;&apos;a&apos;&#x7684;&#x6570;&#x636E;&#xFF0C;&#x4E14;&#x53EA;&#x8F93;&#x51FA;&apos;name&apos;&#x5B57;&#x6BB5;</p>
+<ul>
+<li>[&#x6CE8;&#x610F;]_id&#x5B57;&#x6BB5;&#x9ED8;&#x8BA4;&#x8F93;&#x51FA;</li>
+</ul>
+<pre><code class="lang-js">temp.find({<span class="hljs-attr">name</span>:<span class="hljs-regexp">/a/</span>},<span class="hljs-string">&apos;name&apos;</span>,<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err,docs</span>)</span>{
+    <span class="hljs-comment">//[ { _id: 5971f93be6f98ec60e3dc86c, name: &apos;huochai&apos; },</span>
+    <span class="hljs-comment">//{ _id: 5971f93be6f98ec60e3dc86d, name: &apos;wang&apos; } ]</span>
+    <span class="hljs-built_in">console</span>.log(docs);
+})
+</code></pre>
+<p>&#x5982;&#x679C;&#x786E;&#x5B9E;&#x4E0D;&#x9700;&#x8981;_id&#x5B57;&#x6BB5;&#x8F93;&#x51FA;&#xFF0C;&#x53EF;&#x4EE5;&#x8FDB;&#x884C;&#x5982;&#x4E0B;&#x8BBE;&#x7F6E;</p>
+<pre><code class="lang-js">temp.find({<span class="hljs-attr">name</span>:<span class="hljs-regexp">/a/</span>},{<span class="hljs-attr">name</span>:<span class="hljs-number">1</span>,<span class="hljs-attr">_id</span>:<span class="hljs-number">0</span>},<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err,docs</span>)</span>{
+    <span class="hljs-comment">//[ { name: &apos;huochai&apos; }, { name: &apos;wang&apos; } ]</span>
+    <span class="hljs-built_in">console</span>.log(docs);
+})
+</code></pre>
+<p>&#x627E;&#x51FA;&#x8DF3;&#x8FC7;&#x524D;&#x4E24;&#x6761;&#x6570;&#x636E;&#x7684;&#x5176;&#x4ED6;&#x6240;&#x6709;&#x6570;&#x636E;</p>
+<ul>
+<li>[&#x6CE8;&#x610F;]&#x5982;&#x679C;&#x4F7F;&#x7528;&#x7B2C;&#x4E09;&#x4E2A;&#x53C2;&#x6570;&#xFF0C;&#x524D;&#x4E24;&#x4E2A;&#x53C2;&#x6570;&#x5982;&#x679C;&#x6CA1;&#x6709;&#x503C;&#xFF0C;&#x9700;&#x8981;&#x8BBE;&#x7F6E;&#x4E3A;null</li>
+</ul>
+<pre><code class="lang-js">temp.find(<span class="hljs-literal">null</span>,<span class="hljs-literal">null</span>,{<span class="hljs-attr">skip</span>:<span class="hljs-number">2</span>},<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err,docs</span>)</span>{
+    <span class="hljs-comment">//[ { _id: 5971f93be6f98ec60e3dc86e, name: &apos;huo&apos;, age: 30 },</span>
+    <span class="hljs-comment">//{ _id: 5971f93be6f98ec60e3dc86f, name: &apos;li&apos;, age: 12 } ]</span>
+    <span class="hljs-built_in">console</span>.log(docs);
+})
+</code></pre>
+<h4 id="findbyid">[findById()]</h4>
+<pre><code class="lang-js">Model.findById(id, [projection], [options], [callback])
+</code></pre>
+<p>&#x663E;&#x793A;&#x7B2C;0&#x4E2A;&#x5143;&#x7D20;&#x7684;&#x6240;&#x6709;&#x5B57;&#x6BB5;</p>
+<pre><code class="lang-js"><span class="hljs-keyword">var</span> aIDArr = [];
+temp.find(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err,docs</span>)</span>{
+    docs.forEach(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">item,index,arr</span>)</span>{
+        aIDArr.push(item._id);
+    })
+    temp.findById(aIDArr[<span class="hljs-number">0</span>],<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err,doc</span>)</span>{
+        <span class="hljs-comment">//{ _id: 5971f93be6f98ec60e3dc86c, name: &apos;huochai&apos;, age: 27 }</span>
+        <span class="hljs-built_in">console</span>.log(doc);
+    })
+})
+</code></pre>
+<p>&#x4EE5;&#x4E0A;&#x4EE3;&#x7801;&#x7684;&#x53E6;&#x4E00;&#x79CD;&#x5199;&#x6CD5;&#x5982;&#x4E0B;</p>
+<pre><code class="lang-js"><span class="hljs-keyword">var</span> aIDArr = [];
+temp.find(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err,docs</span>)</span>{
+    docs.forEach(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">item,index,arr</span>)</span>{
+        aIDArr.push(item._id);
+    })
+    temp.findById(aIDArr[<span class="hljs-number">0</span>]).exec(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err,doc</span>)</span>{
+        <span class="hljs-comment">//{ _id: 5971f93be6f98ec60e3dc86c, name: &apos;huochai&apos;, age: 27 }</span>
+        <span class="hljs-built_in">console</span>.log(doc);
+    })
+})
+</code></pre>
+<p>&#x53EA;&#x8F93;&#x51FA;name&#x5B57;&#x6BB5;</p>
+<pre><code class="lang-js">temp.findById(aIDArr[<span class="hljs-number">0</span>],{<span class="hljs-attr">name</span>:<span class="hljs-number">1</span>,<span class="hljs-attr">_id</span>:<span class="hljs-number">0</span>},<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err,doc</span>)</span>{
+    <span class="hljs-comment">//{  name: &apos;huochai&apos;}</span>
+    <span class="hljs-built_in">console</span>.log(doc);
+})
+</code></pre>
+<p>&#x6216;&#x8005;&#x5199;&#x6210;&#x4E0B;&#x9762;&#x8FD9;&#x79CD;&#x5F62;&#x5F0F;</p>
+<pre><code class="lang-js">temp.findById(aIDArr[<span class="hljs-number">0</span>],{<span class="hljs-attr">name</span>:<span class="hljs-number">1</span>,<span class="hljs-attr">_id</span>:<span class="hljs-number">0</span>}).exec(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err,doc</span>)</span>{
+    <span class="hljs-comment">//{  name: &apos;huochai&apos;}</span>
+    <span class="hljs-built_in">console</span>.log(doc);
+})
+</code></pre>
+<p>&#x8F93;&#x51FA;&#x6700;&#x5C11;&#x7684;&#x5B57;&#x6BB5;</p>
+<pre><code class="lang-js">temp.findById(aIDArr[<span class="hljs-number">0</span>],{<span class="hljs-attr">lean</span>:<span class="hljs-literal">true</span>},<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err,doc</span>)</span>{
+    <span class="hljs-comment">//{ _id: 5971f93be6f98ec60e3dc86c }</span>
+    <span class="hljs-built_in">console</span>.log(doc);
+})
+temp.findById(aIDArr[<span class="hljs-number">0</span>],{<span class="hljs-attr">lean</span>:<span class="hljs-literal">true</span>}).exec(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err,doc</span>)</span>{
+    <span class="hljs-comment">//{ _id: 5971f93be6f98ec60e3dc86c }</span>
+    <span class="hljs-built_in">console</span>.log(doc);
+})
+</code></pre>
+<h4 id="findone">[findOne()]</h4>
+<p>&#x8BE5;&#x65B9;&#x6CD5;&#x8FD4;&#x56DE;&#x67E5;&#x627E;&#x5230;&#x7684;&#x6240;&#x6709;&#x5B9E;&#x4F8B;&#x7684;&#x7B2C;&#x4E00;&#x4E2A;</p>
+<pre><code class="lang-js">Model.findOne([conditions], [projection], [options], [callback])
+</code></pre>
+<p>&#x627E;&#x51FA;age&gt;20&#x7684;&#x6587;&#x6863;&#x4E2D;&#x7684;&#x7B2C;&#x4E00;&#x4E2A;&#x6587;&#x6863;</p>
+<pre><code class="lang-js">temp.findOne({<span class="hljs-attr">age</span>:{<span class="hljs-attr">$gt</span> : <span class="hljs-number">20</span>}},<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err,doc</span>)</span>{
+    <span class="hljs-comment">//{ _id: 5971f93be6f98ec60e3dc86c, name: &apos;huochai&apos;, age: 27 }</span>
+    <span class="hljs-built_in">console</span>.log(doc);
+})
+temp.findOne({<span class="hljs-attr">age</span>:{<span class="hljs-attr">$gt</span> : <span class="hljs-number">20</span>}}).exec(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err,doc</span>)</span>{
+    <span class="hljs-comment">//{ _id: 5971f93be6f98ec60e3dc86c, name: &apos;huochai&apos;, age: 27 }</span>
+    <span class="hljs-built_in">console</span>.log(doc);
+})
+</code></pre>
+<p>&#x627E;&#x51FA;age&gt;20&#x7684;&#x6587;&#x6863;&#x4E2D;&#x7684;&#x7B2C;&#x4E00;&#x4E2A;&#x6587;&#x6863;&#xFF0C;&#x4E14;&#x53EA;&#x8F93;&#x51FA;name&#x5B57;&#x6BB5;</p>
+<pre><code class="lang-js">temp.findOne({<span class="hljs-attr">age</span>:{<span class="hljs-attr">$gt</span> : <span class="hljs-number">20</span>}},{<span class="hljs-attr">name</span>:<span class="hljs-number">1</span>,<span class="hljs-attr">_id</span>:<span class="hljs-number">0</span>},<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err,doc</span>)</span>{
+    <span class="hljs-comment">//{ name: &apos;huochai&apos; }</span>
+    <span class="hljs-built_in">console</span>.log(doc);
+})
+temp.findOne({<span class="hljs-attr">age</span>:{<span class="hljs-attr">$gt</span> : <span class="hljs-number">20</span>}},{<span class="hljs-attr">name</span>:<span class="hljs-number">1</span>,<span class="hljs-attr">_id</span>:<span class="hljs-number">0</span>}).exec(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err,doc</span>)</span>{
+    <span class="hljs-comment">//{ name: &apos;huochai&apos; }</span>
+    <span class="hljs-built_in">console</span>.log(doc);
+})
+</code></pre>
+<p>&#x627E;&#x51FA;age&gt;20&#x7684;&#x6587;&#x6863;&#x4E2D;&#x7684;&#x7B2C;&#x4E00;&#x4E2A;&#x6587;&#x6863;&#xFF0C;&#x4E14;&#x8F93;&#x51FA;&#x5305;&#x542B;name&#x5B57;&#x6BB5;&#x5728;&#x5185;&#x7684;&#x6700;&#x77ED;&#x5B57;&#x6BB5;</p>
+<pre><code class="lang-js">temp.findOne({<span class="hljs-attr">age</span>:{<span class="hljs-attr">$gt</span> : <span class="hljs-number">20</span>}},<span class="hljs-string">&quot;name&quot;</span>,{<span class="hljs-attr">lean</span>:<span class="hljs-literal">true</span>},<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err,doc</span>)</span>{
+    <span class="hljs-comment">//{ _id: 5971f93be6f98ec60e3dc86c, name: &apos;huochai&apos; }</span>
+    <span class="hljs-built_in">console</span>.log(doc);
+})
+temp.findOne({<span class="hljs-attr">age</span>:{<span class="hljs-attr">$gt</span> : <span class="hljs-number">20</span>}},<span class="hljs-string">&quot;name&quot;</span>).lean().exec(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err,doc</span>)</span>{
+    <span class="hljs-comment">//{ _id: 5971f93be6f98ec60e3dc86c, name: &apos;huochai&apos; }</span>
+    <span class="hljs-built_in">console</span>.log(doc);
+})
+</code></pre>
+<p>&#x6587;&#x6863;&#x67E5;&#x8BE2;&#x4E2D;&#xFF0C;&#x5E38;&#x7528;&#x7684;&#x67E5;&#x8BE2;&#x6761;&#x4EF6;&#x5982;&#x4E0B;</p>
+<pre><code>$or&#x3000;&#x3000;&#x3000;&#x3000;&#x6216;&#x5173;&#x7CFB;
+$nor&#x3000;&#x3000;&#x3000; &#x6216;&#x5173;&#x7CFB;&#x53D6;&#x53CD;
+$gt&#x3000;&#x3000;&#x3000;&#x3000;&#x5927;&#x4E8E;
+$gte&#x3000;&#x3000;&#x3000; &#x5927;&#x4E8E;&#x7B49;&#x4E8E;
+$lt&#x3000;&#x3000;&#x3000;&#x3000;&#x5C0F;&#x4E8E;
+$lte&#x3000;&#x3000;&#x3000; &#x5C0F;&#x4E8E;&#x7B49;&#x4E8E;
+$ne&#x3000;&#x3000;&#x3000;&#x3000;&#x4E0D;&#x7B49;&#x4E8E;
+$in&#x3000;&#x3000;&#x3000;&#x3000;&#x5728;&#x591A;&#x4E2A;&#x503C;&#x8303;&#x56F4;&#x5185;
+$nin&#x3000;&#x3000;&#x3000; &#x4E0D;&#x5728;&#x591A;&#x4E2A;&#x503C;&#x8303;&#x56F4;&#x5185;
+$all&#x3000;&#x3000;&#x3000; &#x5339;&#x914D;&#x6570;&#x7EC4;&#x4E2D;&#x591A;&#x4E2A;&#x503C;
+$regex&#x3000;&#x3000; &#x6B63;&#x5219;&#xFF0C;&#x7528;&#x4E8E;&#x6A21;&#x7CCA;&#x67E5;&#x8BE2;
+$size&#x3000;&#x3000;&#x3000;&#x5339;&#x914D;&#x6570;&#x7EC4;&#x5927;&#x5C0F;
+$maxDistance&#x3000;&#x8303;&#x56F4;&#x67E5;&#x8BE2;&#xFF0C;&#x8DDD;&#x79BB;&#xFF08;&#x57FA;&#x4E8E;LBS&#xFF09;
+$mod&#x3000;&#x3000;&#x3000;&#x3000;&#x53D6;&#x6A21;&#x8FD0;&#x7B97;
+$near&#x3000;&#x3000;&#x3000; &#x90BB;&#x57DF;&#x67E5;&#x8BE2;&#xFF0C;&#x67E5;&#x8BE2;&#x9644;&#x8FD1;&#x7684;&#x4F4D;&#x7F6E;&#xFF08;&#x57FA;&#x4E8E;LBS&#xFF09;
+$exists&#x3000;&#x3000; &#x5B57;&#x6BB5;&#x662F;&#x5426;&#x5B58;&#x5728;
+$elemMatch&#x3000;&#x5339;&#x914D;&#x5185;&#x6570;&#x7EC4;&#x5185;&#x7684;&#x5143;&#x7D20;
+$within&#x3000;&#x3000;&#x3000;&#x8303;&#x56F4;&#x67E5;&#x8BE2;&#xFF08;&#x57FA;&#x4E8E;LBS&#xFF09;
+$box&#x3000;&#x3000;&#x3000;&#x3000; &#x8303;&#x56F4;&#x67E5;&#x8BE2;&#xFF0C;&#x77E9;&#x5F62;&#x8303;&#x56F4;&#xFF08;&#x57FA;&#x4E8E;LBS&#xFF09;
+$center&#x3000;&#x3000;&#x3000;&#x8303;&#x56F4;&#x9192;&#x8BE2;&#xFF0C;&#x5706;&#x5F62;&#x8303;&#x56F4;&#xFF08;&#x57FA;&#x4E8E;LBS&#xFF09;
+$centerSphere&#x3000;&#x8303;&#x56F4;&#x67E5;&#x8BE2;&#xFF0C;&#x7403;&#x5F62;&#x8303;&#x56F4;&#xFF08;&#x57FA;&#x4E8E;LBS&#xFF09;
+$slice&#x3000;&#x3000;&#x3000;&#x3000;&#x67E5;&#x8BE2;&#x5B57;&#x6BB5;&#x96C6;&#x5408;&#x4E2D;&#x7684;&#x5143;&#x7D20;&#xFF08;&#x6BD4;&#x5982;&#x4ECE;&#x7B2C;&#x51E0;&#x4E2A;&#x4E4B;&#x540E;&#xFF0C;&#x7B2C;N&#x5230;&#x7B2C;M&#x4E2A;&#x5143;&#x7D20;
+</code></pre><h4 id="where">[$where]</h4>
+<p>&#x5982;&#x679C;&#x8981;&#x8FDB;&#x884C;&#x66F4;&#x590D;&#x6742;&#x7684;&#x67E5;&#x8BE2;&#xFF0C;&#x9700;&#x8981;&#x4F7F;&#x7528;$where&#x64CD;&#x4F5C;&#x7B26;&#xFF0C;$where&#x64CD;&#x4F5C;&#x7B26;&#x529F;&#x80FD;&#x5F3A;&#x5927;&#x800C;&#x4E14;&#x7075;&#x6D3B;&#xFF0C;&#x5B83;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x4EFB;&#x610F;&#x7684;JavaScript&#x4F5C;&#x4E3A;&#x67E5;&#x8BE2;&#x7684;&#x4E00;&#x90E8;&#x5206;&#xFF0C;&#x5305;&#x542B;JavaScript&#x8868;&#x8FBE;&#x5F0F;&#x7684;&#x5B57;&#x7B26;&#x4E32;&#x6216;&#x8005;JavaScript&#x51FD;&#x6570;</p>
+<p><img src="../../assets/gitbook/moogose_3.png" alt="moogose_0"></p>
+<p>&#x4F7F;&#x7528;&#x5B57;&#x7B26;&#x4E32;</p>
+<pre><code class="lang-js">temp.find({<span class="hljs-attr">$where</span>:<span class="hljs-string">&quot;this.x == this.y&quot;</span>},<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err,docs</span>)</span>{
+    <span class="hljs-comment">//[ { _id: 5972ed35e6f98ec60e3dc887,name: &apos;wang&apos;,age: 18,x: 1,y: 1 },</span>
+    <span class="hljs-comment">//{ _id: 5972ed35e6f98ec60e3dc889, name: &apos;li&apos;, age: 20, x: 2, y: 2 } ]</span>
+    <span class="hljs-built_in">console</span>.log(docs);
+})
+
+temp.find({<span class="hljs-attr">$where</span>:<span class="hljs-string">&quot;obj.x == obj.y&quot;</span>},<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err,docs</span>)</span>{
+    <span class="hljs-comment">//[ { _id: 5972ed35e6f98ec60e3dc887,name: &apos;wang&apos;,age: 18,x: 1,y: 1 },</span>
+    <span class="hljs-comment">//{ _id: 5972ed35e6f98ec60e3dc889, name: &apos;li&apos;, age: 20, x: 2, y: 2 } ]</span>
+    <span class="hljs-built_in">console</span>.log(docs);
+})
+</code></pre>
+<p>&#x4F7F;&#x7528;&#x51FD;&#x6570;</p>
+<pre><code class="lang-js">temp.find({<span class="hljs-attr">$where</span>:<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+        <span class="hljs-keyword">return</span> obj.x !== obj.y;
+    }},<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err,docs</span>)</span>{
+    <span class="hljs-comment">//[ { _id: 5972ed35e6f98ec60e3dc886,name: &apos;huochai&apos;,age: 27,x: 1,y: 2 },</span>
+    <span class="hljs-comment">//{ _id: 5972ed35e6f98ec60e3dc888, name: &apos;huo&apos;, age: 30, x: 2, y: 1 } ]</span>
+    <span class="hljs-built_in">console</span>.log(docs);
+})
+
+temp.find({<span class="hljs-attr">$where</span>:<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.x !== <span class="hljs-keyword">this</span>.y;
+    }},<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err,docs</span>)</span>{
+    <span class="hljs-comment">//[ { _id: 5972ed35e6f98ec60e3dc886,name: &apos;huochai&apos;,age: 27,x: 1,y: 2 },</span>
+    <span class="hljs-comment">//{ _id: 5972ed35e6f98ec60e3dc888, name: &apos;huo&apos;, age: 30, x: 2, y: 1 } ]</span>
+    <span class="hljs-built_in">console</span>.log(docs);
+})
+</code></pre>
 
                                 
                                 </section>
@@ -840,7 +1047,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"7.7 Mongoose 文档查询","level":"1.8.7","depth":2,"next":{"title":"7.8 Mongoose 文档更新","level":"1.8.8","depth":2,"path":"note/mongodb/updata.md","ref":"note/mongodb/updata.md","articles":[]},"previous":{"title":"7.6 Mongoose 文档新增","level":"1.8.6","depth":2,"path":"note/mongodb/create.md","ref":"note/mongodb/create.md","articles":[]},"dir":"ltr"},"config":{"plugins":["yahei","katex","-search","-sharing","highlight","-fontsettings","-lunr","search-pro"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"yahei":{},"katex":{},"highlight":{},"search-pro":{},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"XuTingLuo","pdf":{"pageNumbers":true,"fontSize":13,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":10,"left":10,"top":10,"bottom":15}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Sample GitBook","language":"zh-hans","gitbook":"*","description":"This is a sample book created by gitbook","extension":null},"file":{"path":"note/mongodb/query.md","mtime":"2018-08-31T08:33:27.646Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-08-31T08:34:32.437Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"7.7 Mongoose 文档查询","level":"1.8.7","depth":2,"next":{"title":"7.8 Mongoose 文档更新","level":"1.8.8","depth":2,"path":"note/mongodb/updata.md","ref":"note/mongodb/updata.md","articles":[]},"previous":{"title":"7.6 Mongoose 文档新增","level":"1.8.6","depth":2,"path":"note/mongodb/create.md","ref":"note/mongodb/create.md","articles":[]},"dir":"ltr"},"config":{"plugins":["yahei","katex","-search","-sharing","highlight","-fontsettings","-lunr","search-pro"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"yahei":{},"katex":{},"highlight":{},"search-pro":{},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"XuTingLuo","pdf":{"pageNumbers":true,"fontSize":13,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":10,"left":10,"top":10,"bottom":15}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Sample GitBook","language":"zh-hans","gitbook":"*","description":"This is a sample book created by gitbook","extension":null},"file":{"path":"note/mongodb/query.md","mtime":"2018-07-25T01:58:09.847Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-08-31T09:00:04.966Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>
